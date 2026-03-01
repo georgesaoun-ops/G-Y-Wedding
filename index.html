@@ -175,6 +175,8 @@ button#submit:disabled {
 </div>
 
 <script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyv0bgOs1Ky1iNBX_SXCwUinEIQd_7tCheIx4W4HOAic0pDe7eAD90rqH3cVzHgmP7B/exec";
+
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 const guests = params.get("guests");
@@ -202,20 +204,38 @@ function selectAttendance(choice) {
     btnNo.classList.add("selected");
   }
 
-  // Enable submit button once a choice is made
   document.getElementById("submit").disabled = false;
 }
 
 function submitForm(){
+  if(attending === null) return;
+
   const loveMsg = document.getElementById("love-message").value;
 
-  const msgEl = document.getElementById("thank-you-msg");
-  msgEl.textContent = attending
-    ? "Thank you for confirming your presence."
-    : "Thank you for letting us know.";
+  const payload = {
+    name: params.get("name") || "Unknown",
+    guests: params.get("guests") || "0",
+    attending: attending ? "Yes" : "No",
+    message: loveMsg
+  };
 
-  msgEl.classList.remove("visible");
-  setTimeout(() => msgEl.classList.add("visible"), 10);
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    const msgEl = document.getElementById("thank-you-msg");
+    msgEl.textContent = attending
+      ? "Thank you for confirming your presence 🎉"
+      : "Thank you for letting us know 💛";
+    msgEl.classList.remove("visible");
+    setTimeout(() => msgEl.classList.add("visible"), 10);
+
+    document.getElementById("submit").disabled = true;
+  })
+  .catch(() => {
+    alert("Something went wrong, please try again.");
+  });
 }
 </script>
 
