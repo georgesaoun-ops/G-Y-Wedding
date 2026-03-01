@@ -131,6 +131,14 @@ button#submit:hover {
   background: #5c4631;
 }
 
+button#submit:disabled {
+  background: #b0a090;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.6;
+}
+
 @media (max-width: 480px) {
   h1 { font-size: 16vw; }
   #message, #guest-name, #num-guests, p.instruction { font-size: 7vw; }
@@ -162,7 +170,7 @@ button#submit:hover {
   <p class="instruction">Share your love and wishes:</p>
   <textarea id="love-message" placeholder="Write your message here..."></textarea>
 
-  <button id="submit" onclick="submitForm()">Submit</button>
+  <button id="submit" onclick="submitForm()" disabled>Submit</button>
 </div>
 
 <script>
@@ -192,14 +200,13 @@ function selectAttendance(choice) {
   } else {
     btnNo.classList.add("selected");
   }
+
+  // Enable submit button once a choice is made
+  document.getElementById("submit").disabled = false;
 }
 
 function submitForm(){
   const loveMsg = document.getElementById("love-message").value;
-  if(attending === null){
-    alert("Please select Yes or No for attendance");
-    return;
-  }
 
   const msgEl = document.getElementById("thank-you-msg");
   msgEl.textContent = attending
