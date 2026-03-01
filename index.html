@@ -151,7 +151,7 @@ button#submit:hover {
   <p class="instruction">Please reply before June 7, 2026</p>
   <p class="instruction">Number of persons invited: <span id="num-guests"></span></p>
 
-  <p class="instruction">Are you attending:</p>
+  <p class="instruction">Are you attending?</p>
   <div class="rsvp-buttons">
     <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
     <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
@@ -171,7 +171,7 @@ const name = params.get("name");
 const guests = params.get("guests");
 
 if(name && guests){
-  document.getElementById("message").innerHTML = "Chère <b>" + name + "</b>,";
+  document.getElementById("message").innerHTML = "Dear <b>" + name + "</b>,";
   document.getElementById("guest-name").innerText = name;
   document.getElementById("num-guests").innerText = guests;
 }
@@ -203,8 +203,8 @@ function submitForm(){
 
   const msgEl = document.getElementById("thank-you-msg");
   msgEl.textContent = attending
-    ? "Thank you for confirming your presence 🎉"
-    : "Thank you for letting us know 💛";
+    ? "Thank you for confirming your presence."
+    : "Thank you for letting us know.";
 
   msgEl.classList.remove("visible");
   setTimeout(() => msgEl.classList.add("visible"), 10);
