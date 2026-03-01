@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Wedding RSVP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #faf6f0;
+      --warm: #f2ebe0;
+      --gold: #b89a6a;
+      --gold-light: #d4b896;
+      --bark: #5c4a35;
+      --text: #2e2418;
+      --muted: #9a8774;
+      --sage: #8a9e87;
+      --blush: #e8d5c8;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+    }
+
+    /* Decorative background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, #e8d5c840 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, #d4c4b020 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    /* Ornament top */
+    .ornament {
+      text-align: center;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.1s;
+    }
+    .ornament svg {
+      width: 120px;
+      height: 30px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1;
+    }
+
+    /* Card */
+    .card {
+      background: #fff;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 40px rgba(92,74,53,0.10), 0 2px 8px rgba(92,74,53,0.06);
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.2s;
+    }
+
+    .card-header {
+      background: var(--bark);
+      padding: 36px 28px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 20px;
+      background: #fff;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    .header-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 14px;
+    }
+
+    .couple-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px;
+      font-weight: 300;
+      font-style: italic;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+    }
+
+    .wedding-date {
+      margin-top: 12px;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      opacity: 0.85;
+    }
+
+    .card-body {
+      padding: 36px 28px 32px;
+    }
+
+    /* Guest greeting */
+    .guest-intro {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .guest-intro p {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .guest-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--bark);
+      line-height: 1.2;
+    }
+    .guest-seats {
+      margin-top: 8px;
+      font-size: 12.5px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .guest-seats span {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--blush);
+    }
+    .divider-diamond {
+      width: 6px;
+      height: 6px;
+      background: var(--gold-light);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* RSVP choice */
+    .rsvp-label {
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .rsvp-choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .rsvp-btn {
+      position: relative;
+      border: 1.5px solid var(--blush);
+      border-radius: 3px;
+      padding: 18px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      background: #fff;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .rsvp-btn input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .rsvp-btn .btn-icon {
+      font-size: 22px;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .rsvp-btn .btn-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      color: var(--bark);
+      display: block;
+    }
+    .rsvp-btn .btn-sub {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 3px;
+      display: block;
+    }
+    .rsvp-btn:hover {
+      border-color: var(--gold-light);
+    }
+    .rsvp-btn.selected-yes {
+      border-color: var(--sage);
+      background: #f4f8f4;
+    }
+    .rsvp-btn.selected-yes .btn-text { color: #3d6b3a; }
+    .rsvp-btn.selected-no {
+      border-color: #c9a0a0;
+      background: #fdf5f5;
+    }
+    .rsvp-btn.selected-no .btn-text { color: #8b4040; }
+
+    /* Attending count */
+    .attending-section {
+      margin-bottom: 22px;
+      display: none;
+    }
+    .attending-section.visible { display: block; }
+
+    .field-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .counter-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .counter-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid var(--blush);
+      background: #fff;
+      font-size: 20px;
+      color: var(--bark);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      line-height: 1;
+    }
+    .counter-btn:active { background: var(--warm); transform: scale(0.95); }
+    .counter-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .counter-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      color: var(--bark);
+      min-width: 40px;
+      text-align: center;
+    }
+
+    /* Message */
+    .message-section {
+      margin-bottom: 28px;
+    }
+    textarea {
+      width: 100%;
+      border: 1.5px solid var(--blush);
+      border-radius: 3px;
+      padding: 14px 16px;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      resize: none;
+      height: 100px;
+      outline: none;
+      transition: border-color 0.2s;
+      line-height: 1.6;
+    }
+    textarea::placeholder { color: var(--blush); }
+    textarea:focus { border-color: var(--gold-light); }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%;
+      padding: 17px;
+      background: var(--bark);
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .submit-btn:hover { background: #4a3a28; }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Success state */
+    .success-view {
+      display: none;
+      text-align: center;
+      padding: 40px 28px 36px;
+    }
+    .success-view.visible { display: block; }
+    .success-icon { font-size: 48px; margin-bottom: 16px; }
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--bark);
+      margin-bottom: 10px;
+    }
+    .success-msg {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* Error message */
+    .error-msg {
+      display: none;
+      background: #fff5f5;
+      border: 1px solid #f0c4c4;
+      border-radius: 3px;
+      padding: 12px 14px;
+      font-size: 12.5px;
+      color: #8b4040;
+      margin-top: 12px;
+      text-align: center;
+    }
+    .error-msg.visible { display: block; }
+
+    /* Footer */
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      opacity: 0.7;
+      letter-spacing: 0.08em;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.5s;
+    }
+
+    /* Not found */
+    .not-found {
+      text-align: center;
+      max-width: 320px;
+      padding: 60px 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+    .not-found-icon { font-size: 40px; margin-bottom: 16px; }
+    .not-found h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      color: var(--bark);
+      margin-bottom: 10px;
+    }
+    .not-found p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-section {
+      animation: fadeUp 0.5s ease forwards;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Ornament -->
+  <div class="ornament">
+    <svg viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="15" x2="45" y2="15"/>
+      <circle cx="60" cy="15" r="5"/>
+      <circle cx="60" cy="15" r="2" fill="#b89a6a" stroke="none"/>
+      <line x1="75" y1="15" x2="120" y2="15"/>
+      <line x1="45" y1="15" x2="52" y2="8"/>
+      <line x1="52" y1="8" x2="60" y2="15"/>
+      <line x1="60" y1="15" x2="68" y2="8"/>
+      <line x1="68" y1="8" x2="75" y2="15"/>
+    </svg>
+  </div>
+
+  <div id="main-content"></div>
+
+  <div class="footer" id="footer">
+    With love ♡ We can't wait to celebrate with you
+  </div>
+
+</div>
+
+<script>
+  // ============================================================
+  // CONFIGURATION — Edit these values
+  // ============================================================
+  const CONFIG = {
+    // Your names as they appear on the card header
+    partner1: "Sophie",
+    partner2: "Julien",
+
+    // Wedding date shown on card
+    weddingDate: "Saturday, September 13th 2025",
+
+    // Your Google Apps Script Web App URL
+    // (see SETUP GUIDE below — replace this after deploying your script)
+    googleScriptURL: "YOUR_GOOGLE_SCRIPT_URL_HERE",
+
+    // Guest list: each entry is { id, name, seats }
+    // The URL will use ?guest=GUESTID to load the right guest
+    guests: [
+      { id: "family01",  name: "The Johnson Family",  seats: 4 },
+      { id: "friend01",  name: "Marie & Thomas",       seats: 2 },
+      { id: "friend02",  name: "Alex Dupont",           seats: 1 },
+      { id: "family02",  name: "Uncle Robert",          seats: 3 },
+      // Add as many guests as you need...
+    ]
+  };
+  // ============================================================
+
+  const params  = new URLSearchParams(window.location.search);
+  const guestId = params.get("guest");
+  const guest   = CONFIG.guests.find(g => g.id === guestId);
+  const content = document.getElementById("main-content");
+
+  if (!guest) {
+    // No valid guest ID — show error
+    content.innerHTML = `
+      <div class="not-found">
+        <div class="not-found-icon">💌</div>
+        <h2>Invitation not found</h2>
+        <p>Please use the personal link we sent you, or contact us directly.</p>
+      </div>`;
+    document.getElementById("footer").style.display = "none";
+  } else {
+    renderCard(guest);
+  }
+
+  function renderCard(guest) {
+    content.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <div class="header-label">You are invited to the wedding of</div>
+        <div class="couple-names">${CONFIG.partner1} &amp; ${CONFIG.partner2}</div>
+        <div class="wedding-date">${CONFIG.weddingDate}</div>
+      </div>
+
+      <div class="card-body" id="form-body">
+
+        <div class="guest-intro">
+          <p>Dear</p>
+          <div class="guest-name">${guest.name}</div>
+          <div class="guest-seats">Your invitation includes <span>${guest.seats} ${guest.seats === 1 ? 'seat' : 'seats'}</span></div>
+        </div>
+
+        <div class="divider"><div class="divider-diamond"></div></div>
+
+        <div class="rsvp-label">Will you be joining us?</div>
+
+        <div class="rsvp-choices">
+          <label class="rsvp-btn" id="btn-yes">
+            <input type="radio" name="rsvp" value="yes" />
+            <span class="btn-icon">🥂</span>
+            <span class="btn-text">Joyfully accepts</span>
+            <span class="btn-sub">I'll be there</span>
+          </label>
+          <label class="rsvp-btn" id="btn-no">
+            <input type="radio" name="rsvp" value="no" />
+            <span class="btn-icon">🌸</span>
+            <span class="btn-text">Regretfully declines</span>
+            <span class="btn-sub">I can't make it</span>
+          </label>
+        </div>
+
+        <div class="attending-section" id="attending-section">
+          <span class="field-label">How many guests will attend?</span>
+          <div class="counter-row">
+            <button class="counter-btn" id="count-minus" onclick="changeCount(-1)" disabled>−</button>
+            <div class="counter-value" id="count-display">1</div>
+            <button class="counter-btn" id="count-plus" onclick="changeCount(1)">+</button>
+          </div>
+        </div>
+
+        <div class="divider"><div class="divider-diamond"></div></div>
+
+        <div class="message-section">
+          <span class="field-label">Leave us a message (optional)</span>
+          <textarea id="guest-message" placeholder="A few words for the happy couple…" maxlength="500"></textarea>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="submitRSVP()">
+          Send my reply
+        </button>
+        <div class="error-msg" id="error-msg">Something went wrong. Please try again or contact us directly.</div>
+
+      </div>
+
+      <div class="success-view" id="success-view">
+        <div class="success-icon" id="success-icon"></div>
+        <div class="success-title" id="success-title"></div>
+        <div class="success-msg" id="success-msg"></div>
+      </div>
+    </div>`;
+
+    // Wire up radio buttons
+    let attendingCount = 1;
+    const maxSeats = guest.seats;
+
+    document.querySelectorAll('input[name="rsvp"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        const btnYes = document.getElementById('btn-yes');
+        const btnNo  = document.getElementById('btn-no');
+        const sect   = document.getElementById('attending-section');
+
+        btnYes.classList.remove('selected-yes');
+        btnNo.classList.remove('selected-no');
+
+        if (this.value === 'yes') {
+          btnYes.classList.add('selected-yes');
+          sect.classList.add('visible');
+          updateCounter(attendingCount);
+        } else {
+          btnNo.classList.add('selected-no');
+          sect.classList.remove('visible');
+        }
+      });
+    });
+
+    window.changeCount = function(delta) {
+      attendingCount = Math.min(maxSeats, Math.max(1, attendingCount + delta));
+      updateCounter(attendingCount);
+    };
+
+    function updateCounter(val) {
+      attendingCount = val;
+      document.getElementById('count-display').textContent = val;
+      document.getElementById('count-minus').disabled = val <= 1;
+      document.getElementById('count-plus').disabled  = val >= maxSeats;
+    }
+
+    window.submitRSVP = async function() {
+      const rsvpValue = document.querySelector('input[name="rsvp"]:checked');
+      if (!rsvpValue) {
+        alert("Please let us know if you'll be joining us 💌");
+        return;
+      }
+
+      const attending = rsvpValue.value === 'yes';
+      const message   = document.getElementById('guest-message').value.trim();
+      const btn       = document.getElementById('submit-btn');
+      const errEl     = document.getElementById('error-msg');
+
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+      errEl.classList.remove('visible');
+
+      const payload = {
+        guestId:       guest.id,
+        guestName:     guest.name,
+        attending:     attending ? "Yes" : "No",
+        guestCount:    attending ? attendingCount : 0,
+        message:       message,
+        submittedAt:   new Date().toISOString()
+      };
+
+      try {
+        await fetch(CONFIG.googleScriptURL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        showSuccess(attending);
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = "Send my reply";
+        errEl.classList.add('visible');
+      }
+    };
+
+    function showSuccess(attending) {
+      document.getElementById('form-body').style.display  = 'none';
+      const sv = document.getElementById('success-view');
+      sv.classList.add('visible');
+
+      if (attending) {
+        document.getElementById('success-icon').textContent  = '🥂';
+        document.getElementById('success-title').textContent = 'We can't wait to see you!';
+        document.getElementById('success-msg').innerHTML     = `Thank you, <strong>${guest.name}</strong>.<br>Your RSVP has been received. See you on ${CONFIG.weddingDate}!`;
+      } else {
+        document.getElementById('success-icon').textContent  = '🌸';
+        document.getElementById('success-title').textContent = 'We'll miss you dearly.';
+        document.getElementById('success-msg').innerHTML     = `Thank you for letting us know, <strong>${guest.name}</strong>.<br>We'll be thinking of you on our special day.`;
+      }
+    }
+  }
+</script>
+</body>
+</html>
