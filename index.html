@@ -186,8 +186,13 @@ const token = params.get("token");
 
 function validateToken(name, guests, token) {
   if (!token) return false;
-  const expected = btoa(name + "|" + guests + "|GY2026SECRET");
-  return token === expected;
+  try {
+    const decoded = atob(token);
+    const expected = name + "|" + guests + "|GY2026SECRET";
+    return decoded === expected;
+  } catch(e) {
+    return false;
+  }
 }
 
 if(name && guests && validateToken(name, guests, token)){
