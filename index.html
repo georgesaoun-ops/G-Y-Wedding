@@ -285,6 +285,7 @@ button#edit-btn:hover {
     <p id="reply-deadline">Please reply before June 7, 2026</p>
 
     <div id="thank-you-msg"></div>
+    <p id="changed-mind" style="font-size: 1rem; color: #74583e; display: none;">Need to make a change?</p>
     <button id="edit-btn" onclick="editResponse()">Edit</button>
 
     <p id="wishes-label">Share your love and wishes:</p>
@@ -377,6 +378,7 @@ function submitForm(){
     setTimeout(() => msgEl.classList.add("visible"), 10);
 
     document.getElementById("edit-btn").style.display = "inline-block";
+    document.getElementById("changed-mind").style.display = "block";
   })
   .catch(() => {
     submitBtn.textContent = "Submit";
@@ -395,6 +397,7 @@ function editResponse() {
   document.getElementById("submit").disabled = true;
   document.getElementById("submit").textContent = "Submit";
   document.getElementById("edit-btn").style.display = "none";
+  document.getElementById("changed-mind").style.display = "none";
 
   const msgEl = document.getElementById("thank-you-msg");
   msgEl.classList.remove("visible");
