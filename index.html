@@ -133,19 +133,23 @@ button#submit:disabled {
 <div class="container">
   <h1>Georges & Yara</h1>
   <div id="message"></div>
+
   <p class="instruction">Honor us with your presence</p>
   <p class="instruction">Number of persons invited: <span id="num-guests"></span></p>
+
   <p class="instruction">Are you attending?</p>
   <div class="rsvp-buttons">
     <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
     <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
-    </div>
-  
-  <p class="instruction">Please reply before June 7, 2026</p>
   </div>
+
+  <p class="instruction">Please reply before June 7, 2026</p>
+
   <div id="thank-you-msg"></div>
+
   <p class="instruction">Share your love and wishes:</p>
   <textarea id="love-message" placeholder="Write your message here..."></textarea>
+
   <button id="submit" onclick="submitForm()" disabled>Submit</button>
 </div>
 
