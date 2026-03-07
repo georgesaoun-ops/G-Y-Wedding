@@ -18,7 +18,6 @@ html, body {
   text-align: center;
   overflow: hidden;
 }
-
 .container {
   height: 100vh;
   width: 95%;
@@ -28,7 +27,6 @@ html, body {
   align-items: center;
   padding: 5px;
 }
-
 h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 14vw;
@@ -36,22 +34,18 @@ h1 {
   margin: 0;
   line-height: 1;
 }
-
-#message, #guest-name, #num-guests,
-p.instruction {
+#message, #guest-name, #num-guests, p.instruction {
   font-size: 6vw;
   color: #74583e;
   margin: 5px 0;
   line-height: 1.2;
 }
-
 div.rsvp-buttons {
   display: flex;
   justify-content: center;
   gap: 15px;
   margin-top: 5px;
 }
-
 button.confirm, button.decline {
   font-size: 4vw;
   padding: 10px 25px;
@@ -67,25 +61,19 @@ button.confirm, button.decline {
   color: white;
   font-family: 'EB Garamond', serif;
 }
-
-button.confirm:hover, button.decline:hover {
-  transform: scale(1.05);
-}
-
+button.confirm:hover, button.decline:hover { transform: scale(1.05); }
 button.confirm.selected {
   background: linear-gradient(90deg, #2e7d32, #1b5e20);
   border: 2px solid #a5d6a7;
   box-shadow: 0 0 18px 4px rgba(46, 125, 50, 0.55);
   transform: scale(1.08);
 }
-
 button.decline.selected {
   background: linear-gradient(90deg, #c62828, #8b0000);
   border: 2px solid #ef9a9a;
   box-shadow: 0 0 18px 4px rgba(198, 40, 40, 0.55);
   transform: scale(1.08);
 }
-
 #thank-you-msg {
   font-size: 5vw;
   color: #74583e;
@@ -94,11 +82,7 @@ button.decline.selected {
   transition: opacity 0.4s ease;
   opacity: 0;
 }
-
-#thank-you-msg.visible {
-  opacity: 1;
-}
-
+#thank-you-msg.visible { opacity: 1; }
 textarea {
   width: 90%;
   max-width: 400px;
@@ -113,7 +97,6 @@ textarea {
   margin-top: 5px;
   font-family: 'EB Garamond', serif;
 }
-
 button#submit {
   font-size: 5vw;
   padding: 15px 40px;
@@ -128,12 +111,7 @@ button#submit {
   transition: all 0.3s ease;
   font-family: 'EB Garamond', serif;
 }
-
-button#submit:hover {
-  transform: scale(1.05);
-  background: #5c4631;
-}
-
+button#submit:hover { transform: scale(1.05); background: #5c4631; }
 button#submit:disabled {
   background: #d6ccc4;
   box-shadow: none;
@@ -142,7 +120,6 @@ button#submit:disabled {
   opacity: 0.45;
   color: #a89080;
 }
-
 @media (max-width: 480px) {
   h1 { font-size: 16vw; }
   #message, #guest-name, #num-guests, p.instruction { font-size: 7vw; }
@@ -153,26 +130,20 @@ button#submit:disabled {
 </style>
 </head>
 <body>
-
 <div class="container">
   <h1>Georges & Yara</h1>
   <div id="message"></div>
-
   <p class="instruction">Honor us with your presence</p>
   <p class="instruction">Please reply before June 7, 2026</p>
   <p class="instruction">Number of persons invited: <span id="num-guests"></span></p>
-
   <p class="instruction">Are you attending?</p>
   <div class="rsvp-buttons">
     <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
     <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
   </div>
-
   <div id="thank-you-msg"></div>
-
   <p class="instruction">Share your love and wishes:</p>
   <textarea id="love-message" placeholder="Write your message here..."></textarea>
-
   <button id="submit" onclick="submitForm()" disabled>Submit</button>
 </div>
 
@@ -187,7 +158,10 @@ const token = params.get("token");
 function validateToken(name, guests, token) {
   if (!token) return false;
   try {
-    const decoded = atob(token);
+    // Restore base64 padding
+    let base64 = token.replace(/-/g, "+").replace(/_/g, "/");
+    while (base64.length % 4) base64 += "=";
+    const decoded = atob(base64);
     const expected = name + "|" + guests + "|GY2026SECRET";
     return decoded === expected;
   } catch(e) {
@@ -209,34 +183,27 @@ let attending = null;
 
 function selectAttendance(choice) {
   attending = choice;
-
   const btnYes = document.getElementById("btn-yes");
   const btnNo = document.getElementById("btn-no");
-
   btnYes.classList.remove("selected");
   btnNo.classList.remove("selected");
-
   if (choice) {
     btnYes.classList.add("selected");
   } else {
     btnNo.classList.add("selected");
   }
-
   document.getElementById("submit").disabled = false;
 }
 
 function submitForm(){
   if(attending === null) return;
-
   const loveMsg = document.getElementById("love-message").value;
-
   const payload = {
     name: params.get("name") || "Unknown",
     guests: params.get("guests") || "0",
     attending: attending ? "Yes" : "No",
     message: loveMsg
   };
-
   fetch(SCRIPT_URL, {
     method: "POST",
     body: JSON.stringify(payload)
@@ -248,7 +215,6 @@ function submitForm(){
       : "Thank you for letting us know 💛";
     msgEl.classList.remove("visible");
     setTimeout(() => msgEl.classList.add("visible"), 10);
-
     document.getElementById("submit").disabled = true;
   })
   .catch(() => {
@@ -256,6 +222,5 @@ function submitForm(){
   });
 }
 </script>
-
 </body>
 </html>
