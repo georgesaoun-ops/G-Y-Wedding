@@ -339,24 +339,6 @@ function submitForm(){
     attending: attending ? "Yes" : "No",
     message: loveMsg
   };
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  })
-function submitForm(){
-  if(attending === null) return;
-
-  const submitBtn = document.getElementById("submit");
-  submitBtn.textContent = "Sending...";
-  submitBtn.disabled = true;
-
-  const loveMsg = document.getElementById("love-message").value;
-  const payload = {
-    name: params.get("name") || "Unknown",
-    guests: params.get("guests") || "0",
-    attending: attending ? "Yes" : "No",
-    message: loveMsg
-  };
 
   fetch(SCRIPT_URL, {
     method: "POST",
