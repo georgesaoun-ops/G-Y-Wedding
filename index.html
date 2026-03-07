@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mariage Georges & Yara</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
 <style>
@@ -11,10 +12,12 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
+  min-height: 100%;
   background-color: #fff7ee;
   font-family: 'EB Garamond', serif;
   text-align: center;
   color: #74583e;
+  overflow-y: scroll;
 }
 
 .container {
@@ -28,7 +31,6 @@ html, body {
   gap: 20px;
 }
 
-/* Divider */
 .divider {
   width: 60%;
   border: none;
@@ -36,7 +38,6 @@ html, body {
   margin: 5px 0;
 }
 
-/* Bible quote */
 .quote {
   font-size: 1.2rem;
   font-style: italic;
@@ -49,43 +50,40 @@ html, body {
   font-style: normal;
 }
 
-/* Family names */
 .family {
   font-size: 1.2rem;
   line-height: 2;
   color: #74583e;
 }
 
-/* Invite text */
 .invite-text {
   font-size: 1.1rem;
   color: #74583e;
   line-height: 1.6;
+  margin: 0;
 }
 
-/* Names */
 h1 {
   font-family: 'Great Vibes', cursive;
-  font-size: clamp(60px, 14vw, 110px);
+  font-size: clamp(50px, 12vw, 110px);
   color: #74583e;
   margin: 0;
   line-height: 1;
+  white-space: nowrap;
 }
 
-/* Dear message */
 #message {
   font-size: 1.2rem;
   color: #74583e;
 }
 
-/* Date time venue */
-.event-info {
+.event-info p {
   font-size: 1.15rem;
   color: #74583e;
   line-height: 2;
+  margin: 0;
 }
 
-/* Map */
 .map-wrapper {
   width: 100%;
   border-radius: 15px;
@@ -93,7 +91,6 @@ h1 {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* RSVP section */
 .rsvp-section {
   width: 100%;
   display: flex;
@@ -195,6 +192,14 @@ button#submit:disabled {
   transform: none;
   opacity: 0.45;
   color: #a89080;
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: clamp(50px, 15vw, 80px); white-space: nowrap; }
+  .quote { font-size: 1rem; }
+  .family { font-size: 1rem; }
+  .invite-text { font-size: 1rem; }
+  .rsvp-section p { font-size: 1rem; }
 }
 </style>
 </head>
@@ -304,7 +309,7 @@ if(name && guests && validateToken(name, guests, token)){
   document.getElementById("num-guests").innerText = guests;
 } else {
   document.querySelector(".container").innerHTML = `
-    <h1 style="font-family: 'Great Vibes', cursive; color: #74583e; font-size: clamp(60px, 14vw, 110px);">Georges & Yara</h1>
+    <h1 style="font-family: 'Great Vibes', cursive; color: #74583e; font-size: clamp(50px, 12vw, 110px); white-space: nowrap;">Georges & Yara</h1>
     <p style="color: #74583e; font-family: 'EB Garamond', serif; font-size: 1.2rem;">This invitation link is not valid.</p>
   `;
 }
