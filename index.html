@@ -229,8 +229,8 @@ function submitForm(){
   .then(() => {
     const msgEl = document.getElementById("thank-you-msg");
     msgEl.textContent = attending
-      ? "Thank you for confirming your presence 🎉"
-      : "Thank you for letting us know 💛";
+      ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!"
+      : "Thank you for letting us know.";
     msgEl.classList.remove("visible");
     setTimeout(() => msgEl.classList.add("visible"), 10);
     document.getElementById("submit").disabled = true;
