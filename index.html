@@ -207,9 +207,7 @@ button#edit-btn {
   transition: all 0.2s ease;
 }
 
-button#edit-btn:hover {
-  background: #fff3f0;
-}
+button#edit-btn:hover { background: #fff3f0; }
 
 @media (max-width: 480px) {
   h1 { font-size: clamp(50px, 15vw, 80px); white-space: nowrap; }
@@ -223,7 +221,6 @@ button#edit-btn:hover {
 <body>
 <div class="container">
 
-  <!-- Bible Quote -->
   <p class="quote">
     "What God has joined together, let no one separate."
     <br>
@@ -232,7 +229,6 @@ button#edit-btn:hover {
 
   <hr class="divider">
 
-  <!-- Family Names -->
   <p class="family">
     <strong>Mr. Jihad & Mrs. Caroline Aoun</strong>
     <br>
@@ -245,7 +241,6 @@ button#edit-btn:hover {
     invite you to celebrate the union of their beloved son and daughter
   </p>
 
-  <!-- Names -->
   <h1>Georges & Yara</h1>
 
   <div class="event-info">
@@ -255,7 +250,6 @@ button#edit-btn:hover {
     <p style="font-size: 1rem; font-style: italic;">Ceremony followed by a welcome drink, dinner and celebration.</p>
   </div>
 
-  <!-- Map -->
   <div class="map-wrapper">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1655.1770830158753!2d35.65608087879436!3d33.93201790076909!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f3900735df251%3A0x1e8d45f43856d9c!2sDomaine%20de%20Bherdok!5e0!3m2!1sen!2sfr!4v1772919879399!5m2!1sen!2sfr"
@@ -270,7 +264,6 @@ button#edit-btn:hover {
 
   <hr class="divider">
 
-  <!-- RSVP Section -->
   <div class="rsvp-section">
     <p class="invite-text" style="font-size: 1.5rem;"><strong>Honor us with your presence</strong></p>
     <div id="message"></div>
@@ -327,6 +320,21 @@ if(name && guests && validateToken(name, guests, token)){
   `;
 }
 
+// Check if already submitted
+if (name && localStorage.getItem("rsvp_submitted_" + name)) {
+  document.querySelector(".rsvp-buttons").style.display = "none";
+  document.getElementById("love-message").style.display = "none";
+  document.getElementById("attending-question").style.display = "none";
+  document.getElementById("reply-deadline").style.display = "none";
+  document.getElementById("wishes-label").style.display = "none";
+  document.getElementById("submit").style.display = "none";
+  document.getElementById("changed-mind").style.display = "block";
+  document.getElementById("edit-btn").style.display = "inline-block";
+  const msgEl = document.getElementById("thank-you-msg");
+  msgEl.textContent = localStorage.getItem("rsvp_message_" + name) || "You have already submitted your response.";
+  msgEl.classList.add("visible");
+}
+
 let attending = null;
 
 function selectAttendance(choice) {
@@ -370,15 +378,21 @@ function submitForm(){
     document.getElementById("wishes-label").style.display = "none";
     submitBtn.style.display = "none";
 
-    const msgEl = document.getElementById("thank-you-msg");
-    msgEl.textContent = attending
+    const thankYouText = attending
       ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!"
       : "Thank you for letting us know.";
+
+    const msgEl = document.getElementById("thank-you-msg");
+    msgEl.textContent = thankYouText;
     msgEl.classList.remove("visible");
     setTimeout(() => msgEl.classList.add("visible"), 10);
 
     document.getElementById("edit-btn").style.display = "inline-block";
     document.getElementById("changed-mind").style.display = "block";
+
+    // Save to localStorage
+    localStorage.setItem("rsvp_submitted_" + name, "true");
+    localStorage.setItem("rsvp_message_" + name, thankYouText);
   })
   .catch(() => {
     submitBtn.textContent = "Submit";
@@ -388,6 +402,10 @@ function submitForm(){
 }
 
 function editResponse() {
+  // Clear localStorage so they can resubmit
+  localStorage.removeItem("rsvp_submitted_" + name);
+  localStorage.removeItem("rsvp_message_" + name);
+
   document.querySelector(".rsvp-buttons").style.display = "flex";
   document.getElementById("love-message").style.display = "block";
   document.getElementById("attending-question").style.display = "block";
