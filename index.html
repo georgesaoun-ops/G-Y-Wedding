@@ -182,11 +182,22 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyv0bgOs1Ky1iNBX_SXC
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 const guests = params.get("guests");
+const token = params.get("token");
 
-if(name && guests){
+function validateToken(name, guests, token) {
+  if (!token) return false;
+  const expected = btoa(name + "|" + guests + "|GY2026SECRET");
+  return token === expected;
+}
+
+if(name && guests && validateToken(name, guests, token)){
   document.getElementById("message").innerHTML = "Dear <b>" + name + "</b>,";
-  document.getElementById("guest-name").innerText = name;
   document.getElementById("num-guests").innerText = guests;
+} else {
+  document.querySelector(".container").innerHTML = `
+    <h1 style="font-family: 'Great Vibes', cursive; color: #74583e; font-size: 14vw;">Georges & Yara</h1>
+    <p style="color: #74583e; font-family: 'EB Garamond', serif; font-size: 6vw;">This invitation link is not valid.</p>
+  `;
 }
 
 let attending = null;
