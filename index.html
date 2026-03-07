@@ -254,7 +254,7 @@ button#submit:disabled {
 
   <!-- RSVP Section -->
   <div class="rsvp-section">
-   <p class="invite-text">Honor us with your presence</p>
+   <p class="invite-text"><strong>Honor us with your presence</strong></p>
     <!-- Dear guest -->
   <div id="message"></div>
     <p>Number of persons invited: <strong><span id="num-guests"></span></strong></p>
@@ -299,7 +299,7 @@ function validateToken(name, guests, token) {
 }
 
 if(name && guests && validateToken(name, guests, token)){
-  document.getElementById("message").innerHTML = "Dear <b>" + name + "</b>,";
+  document.getElementById("message").innerHTML = "<b>" + name + "</b>,";
   document.getElementById("num-guests").innerText = guests;
 } else {
   document.querySelector(".container").innerHTML = `
