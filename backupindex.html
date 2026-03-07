@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mariage Georges & Yara</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #fff7ee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  overflow: hidden;
+}
+
+.container {
+  height: 100vh;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 5px;
+}
+
+h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 14vw;
+  color: #74583e;
+  margin: 0;
+  line-height: 1;
+}
+
+#message, #guest-name, #num-guests,
+p.instruction {
+  font-size: 6vw;
+  color: #74583e;
+  margin: 5px 0;
+  line-height: 1.2;
+}
+
+div.rsvp-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+button.confirm, button.decline {
+  font-size: 4vw;
+  padding: 10px 25px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  width: auto;
+  min-width: 80px;
+  max-width: 120px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  background: linear-gradient(90deg, #c8a96a, #b8860b);
+  color: white;
+}
+
+button.confirm:hover, button.decline:hover {
+  transform: scale(1.05);
+}
+
+button.confirm.selected {
+  background: linear-gradient(90deg, #2e7d32, #1b5e20);
+  border: 2px solid #a5d6a7;
+  box-shadow: 0 0 18px 4px rgba(46, 125, 50, 0.55);
+  transform: scale(1.08);
+}
+
+button.decline.selected {
+  background: linear-gradient(90deg, #c62828, #8b0000);
+  border: 2px solid #ef9a9a;
+  box-shadow: 0 0 18px 4px rgba(198, 40, 40, 0.55);
+  transform: scale(1.08);
+}
+
+#thank-you-msg {
+  font-size: 5vw;
+  color: #74583e;
+  font-style: italic;
+  min-height: 1.5em;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+#thank-you-msg.visible {
+  opacity: 1;
+}
+
+textarea {
+  width: 90%;
+  max-width: 400px;
+  height: 100px;
+  padding: 15px;
+  font-size: 5vw;
+  border-radius: 15px;
+  border: none;
+  background-color: #fff3f0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  resize: none;
+  margin-top: 5px;
+}
+
+button#submit {
+  font-size: 5vw;
+  padding: 15px 40px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  width: 70%;
+  max-width: 300px;
+  color: white;
+  background: #74583e;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+
+button#submit:hover {
+  transform: scale(1.05);
+  background: #5c4631;
+}
+
+button#submit:disabled {
+  background: #d6ccc4;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.45;
+  color: #a89080;
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 16vw; }
+  #message, #guest-name, #num-guests, p.instruction { font-size: 7vw; }
+  button.confirm, button.decline, button#submit { font-size: 5vw; }
+  textarea { font-size: 5vw; height: 90px; width: 95%; }
+  #thank-you-msg { font-size: 6vw; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Georges & Yara</h1>
+  <div id="message"></div>
+
+  <p class="instruction">Honor us with your presence</p>
+  <p id="guest-name"></p>
+  <p class="instruction">Please reply before June 7, 2026</p>
+  <p class="instruction">Number of persons invited: <span id="num-guests"></span></p>
+
+  <p class="instruction">Are you attending?</p>
+  <div class="rsvp-buttons">
+    <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
+    <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
+  </div>
+
+  <div id="thank-you-msg"></div>
+
+  <p class="instruction">Share your love and wishes:</p>
+  <textarea id="love-message" placeholder="Write your message here..."></textarea>
+
+  <button id="submit" onclick="submitForm()" disabled>Submit</button>
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyv0bgOs1Ky1iNBX_SXCwUinEIQd_7tCheIx4W4HOAic0pDe7eAD90rqH3cVzHgmP7B/exec";
+
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
+const guests = params.get("guests");
+
+if(name && guests){
+  document.getElementById("message").innerHTML = "Dear <b>" + name + "</b>,";
+  document.getElementById("guest-name").innerText = name;
+  document.getElementById("num-guests").innerText = guests;
+}
+
+let attending = null;
+
+function selectAttendance(choice) {
+  attending = choice;
+
+  const btnYes = document.getElementById("btn-yes");
+  const btnNo = document.getElementById("btn-no");
+
+  btnYes.classList.remove("selected");
+  btnNo.classList.remove("selected");
+
+  if (choice) {
+    btnYes.classList.add("selected");
+  } else {
+    btnNo.classList.add("selected");
+  }
+
+  document.getElementById("submit").disabled = false;
+}
+
+function submitForm(){
+  if(attending === null) return;
+
+  const loveMsg = document.getElementById("love-message").value;
+
+  const payload = {
+    name: params.get("name") || "Unknown",
+    guests: params.get("guests") || "0",
+    attending: attending ? "Yes" : "No",
+    message: loveMsg
+  };
+
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    const msgEl = document.getElementById("thank-you-msg");
+    msgEl.textContent = attending
+      ? "Thank you for confirming your presence 🎉"
+      : "Thank you for letting us know 💛";
+    msgEl.classList.remove("visible");
+    setTimeout(() => msgEl.classList.add("visible"), 10);
+
+    document.getElementById("submit").disabled = true;
+  })
+  .catch(() => {
+    alert("Something went wrong, please try again.");
+  });
+}
+</script>
+
+</body>
+</html>
