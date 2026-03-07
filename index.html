@@ -154,7 +154,7 @@ button#submit:disabled {
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyv0bgOs1Ky1iNBX_SXCwUinEIQd_7tCheIx4W4HOAic0pDe7eAD90rqH3cVzHgmP7B/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8kAu5-GDYFDyE4M2BPSWXhwY4ugxJm3vYFe4X0LW35c-nk9I6xgr-TWKYcl-4ZIiRYA/exec";
 
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
@@ -164,7 +164,6 @@ const token = params.get("token");
 function validateToken(name, guests, token) {
   if (!token) return false;
   try {
-    // Restore base64 padding
     let base64 = token.replace(/-/g, "+").replace(/_/g, "/");
     while (base64.length % 4) base64 += "=";
     const decoded = atob(base64);
@@ -217,8 +216,8 @@ function submitForm(){
   .then(() => {
     const msgEl = document.getElementById("thank-you-msg");
     msgEl.textContent = attending
-      ? "Thank you for confirming your presence."
-      : "Thank you for letting us know.";
+      ? "Thank you for confirming your presence 🎉"
+      : "Thank you for letting us know 💛";
     msgEl.classList.remove("visible");
     setTimeout(() => msgEl.classList.add("visible"), 10);
     document.getElementById("submit").disabled = true;
