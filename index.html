@@ -351,9 +351,8 @@ function submitForm(){
     msgEl.classList.remove("visible");
     setTimeout(() => msgEl.classList.add("visible"), 10);
     const submitBtn = document.getElementById("submit");
-    submitBtn.textContent = "Submitted ✓";
+    submitBtn.textContent = "Submitted";
     submitBtn.disabled = true;
-  })
   })
   .catch(() => {
     alert("Something went wrong, please try again.");
