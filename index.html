@@ -194,6 +194,23 @@ button#submit:disabled {
   color: #a89080;
 }
 
+button#edit-btn {
+  font-size: 0.95rem;
+  padding: 8px 25px;
+  border-radius: 12px;
+  border: 1px solid #74583e;
+  background: white;
+  color: #74583e;
+  cursor: pointer;
+  font-family: 'EB Garamond', serif;
+  display: none;
+  transition: all 0.2s ease;
+}
+
+button#edit-btn:hover {
+  background: #fff3f0;
+}
+
 @media (max-width: 480px) {
   h1 { font-size: clamp(50px, 15vw, 80px); white-space: nowrap; }
   .quote { font-size: 1rem; }
@@ -228,17 +245,17 @@ button#submit:disabled {
     invite you to celebrate the union of their beloved son and daughter
   </p>
 
-<!-- Names -->
+  <!-- Names -->
   <h1>Georges & Yara</h1>
 
   <div class="event-info">
     <p>Sunday, June 28, 2026</p>
     <p>5:45 PM</p>
     <p>at <strong><em>Domaine de Bherdok, Beit Chabeb</em></strong></p>
-     <p style="font-size: 1rem; font-style: italic;">Ceremony followed by a welcome drink, dinner and celebration.</p>
+    <p style="font-size: 1rem; font-style: italic;">Ceremony followed by a welcome drink, dinner and celebration.</p>
   </div>
 
-   <!-- Map -->
+  <!-- Map -->
   <div class="map-wrapper">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1655.1770830158753!2d35.65608087879436!3d33.93201790076909!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f3900735df251%3A0x1e8d45f43856d9c!2sDomaine%20de%20Bherdok!5e0!3m2!1sen!2sfr!4v1772919879399!5m2!1sen!2sfr"
@@ -255,22 +272,22 @@ button#submit:disabled {
 
   <!-- RSVP Section -->
   <div class="rsvp-section">
-   <p class="invite-text" style="font-size: 1.5rem;"><strong>Honor us with your presence</strong></p>
-    <!-- Dear guest -->
-  <div id="message"></div>
+    <p class="invite-text" style="font-size: 1.5rem;"><strong>Honor us with your presence</strong></p>
+    <div id="message"></div>
     <p>Number of persons invited: <strong><span id="num-guests"></span></strong></p>
-    <p>Are you attending?</p>
 
+    <p id="attending-question">Are you attending?</p>
     <div class="rsvp-buttons">
       <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
       <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
     </div>
 
-    <p>Please reply before June 7, 2026</p>
+    <p id="reply-deadline">Please reply before June 7, 2026</p>
 
     <div id="thank-you-msg"></div>
+    <button id="edit-btn" onclick="editResponse()">✏️ Edit my response</button>
 
-    <p>Share your love and wishes:</p>
+    <p id="wishes-label">Share your love and wishes:</p>
     <textarea id="love-message" placeholder="Write your message here..."></textarea>
 
     <button id="submit" onclick="submitForm()" disabled>Submit</button>
@@ -346,14 +363,10 @@ function submitForm(){
   })
   .then(() => {
     document.querySelector(".rsvp-buttons").style.display = "none";
-    document.querySelector("#love-message").style.display = "none";
-    document.querySelectorAll(".rsvp-section p").forEach(p => {
-      if (p.textContent.includes("Are you attending") ||
-          p.textContent.includes("Please reply") ||
-          p.textContent.includes("Share your love")) {
-        p.style.display = "none";
-      }
-    });
+    document.getElementById("love-message").style.display = "none";
+    document.getElementById("attending-question").style.display = "none";
+    document.getElementById("reply-deadline").style.display = "none";
+    document.getElementById("wishes-label").style.display = "none";
     submitBtn.style.display = "none";
 
     const msgEl = document.getElementById("thank-you-msg");
@@ -362,12 +375,35 @@ function submitForm(){
       : "Thank you for letting us know.";
     msgEl.classList.remove("visible");
     setTimeout(() => msgEl.classList.add("visible"), 10);
+
+    document.getElementById("edit-btn").style.display = "inline-block";
   })
   .catch(() => {
     submitBtn.textContent = "Submit";
     submitBtn.disabled = false;
     alert("Something went wrong, please try again.");
   });
+}
+
+function editResponse() {
+  document.querySelector(".rsvp-buttons").style.display = "flex";
+  document.getElementById("love-message").style.display = "block";
+  document.getElementById("attending-question").style.display = "block";
+  document.getElementById("reply-deadline").style.display = "block";
+  document.getElementById("wishes-label").style.display = "block";
+  document.getElementById("submit").style.display = "inline-block";
+  document.getElementById("submit").disabled = true;
+  document.getElementById("submit").textContent = "Submit";
+  document.getElementById("edit-btn").style.display = "none";
+
+  const msgEl = document.getElementById("thank-you-msg");
+  msgEl.classList.remove("visible");
+  msgEl.textContent = "";
+
+  attending = null;
+  document.getElementById("btn-yes").classList.remove("selected");
+  document.getElementById("btn-no").classList.remove("selected");
+  document.getElementById("love-message").value = "";
 }
 </script>
 </body>
