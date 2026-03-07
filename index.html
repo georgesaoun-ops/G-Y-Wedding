@@ -327,6 +327,11 @@ function selectAttendance(choice) {
 
 function submitForm(){
   if(attending === null) return;
+
+  const submitBtn = document.getElementById("submit");
+  submitBtn.textContent = "Sending...";
+  submitBtn.disabled = true;
+
   const loveMsg = document.getElementById("love-message").value;
   const payload = {
     name: params.get("name") || "Unknown",
