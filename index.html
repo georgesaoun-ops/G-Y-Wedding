@@ -17,7 +17,84 @@ html, body {
   font-family: 'EB Garamond', serif;
   text-align: center;
   color: #74583e;
-  overflow-y: scroll;
+}
+
+/* ── LANDING PAGE ── */
+#landing {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background-color: #fff7ee;
+  z-index: 100;
+  animation: fadeInPage 1.2s ease forwards;
+}
+
+.landing-tagline {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: #74583e;
+  opacity: 0.75;
+  animation: riseIn 1.4s ease 0.3s both;
+}
+
+.landing-enter {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 12px 40px;
+  border-radius: 30px;
+  border: 1px solid #c8a96a;
+  background: transparent;
+  color: #74583e;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: riseIn 1.4s ease 0.5s both;
+}
+
+.landing-enter:hover {
+  background: #74583e;
+  color: #fff7ee;
+  border-color: #74583e;
+}
+
+.ring-initials {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  animation: riseInFixed 1.4s ease 0.7s both;
+}
+
+@keyframes fadeInPage {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes riseInFixed {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+#landing.leaving {
+  animation: fadeOut 0.7s ease forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; pointer-events: none; }
+}
+
+/* ── INVITATION PAGE ── */
+#invitation {
+  overflow-y: auto;
 }
 
 .container {
@@ -219,6 +296,22 @@ button#edit-btn:hover { background: #fff3f0; }
 </style>
 </head>
 <body>
+
+<!-- ── LANDING PAGE ── -->
+<div id="landing">
+  <p class="landing-tagline">We can't imagine this day without you...</p>
+  <button class="landing-enter" onclick="enterInvitation()">Enter</button>
+  <div class="ring-initials">
+    <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="36" cy="36" r="33" fill="none" stroke="#c8a96a" stroke-width="1.2"/>
+      <circle cx="36" cy="36" r="27" fill="none" stroke="rgba(200,169,106,0.4)" stroke-width="0.7"/>
+      <text x="36" y="42" font-family="Great Vibes, cursive" font-size="18" fill="#74583e" text-anchor="middle">G&amp;Y</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ── INVITATION PAGE ── -->
+<div id="invitation" style="display:none;">
 <div class="container">
 
   <p class="quote">
@@ -275,7 +368,7 @@ button#edit-btn:hover { background: #fff3f0; }
       <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
     </div>
 
-    <p id="reply-deadline">Please reply before June 1, 2026</p>
+    <p id="reply-deadline">Please reply before June 7, 2026</p>
 
     <div id="thank-you-msg"></div>
     <p id="changed-mind" style="font-size: 1rem; color: #74583e; display: none;">Need to make a change?</p>
@@ -288,6 +381,7 @@ button#edit-btn:hover { background: #fff3f0; }
   </div>
 
 </div>
+</div><!-- end invitation -->
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8kAu5-GDYFDyE4M2BPSWXhwY4ugxJm3vYFe4X0LW35c-nk9I6xgr-TWKYcl-4ZIiRYA/exec";
@@ -333,6 +427,16 @@ if (name && localStorage.getItem("rsvp_submitted_" + name)) {
   const msgEl = document.getElementById("thank-you-msg");
   msgEl.textContent = localStorage.getItem("rsvp_message_" + name) || "You have already submitted your response.";
   msgEl.classList.add("visible");
+}
+
+function enterInvitation() {
+  const landing = document.getElementById('landing');
+  landing.classList.add('leaving');
+  setTimeout(() => {
+    landing.style.display = 'none';
+    document.getElementById('invitation').style.display = 'block';
+    window.scrollTo(0, 0);
+  }, 700);
 }
 
 let attending = null;
@@ -390,7 +494,6 @@ function submitForm(){
     document.getElementById("edit-btn").style.display = "inline-block";
     document.getElementById("changed-mind").style.display = "block";
 
-    // Save to localStorage
     localStorage.setItem("rsvp_submitted_" + name, "true");
     localStorage.setItem("rsvp_message_" + name, thankYouText);
   })
@@ -402,7 +505,6 @@ function submitForm(){
 }
 
 function editResponse() {
-  // Clear localStorage so they can resubmit
   localStorage.removeItem("rsvp_submitted_" + name);
   localStorage.removeItem("rsvp_message_" + name);
 
