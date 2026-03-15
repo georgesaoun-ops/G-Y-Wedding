@@ -514,21 +514,29 @@ function enterInvitation() {
 
 let musicPlaying = false;
 
-function toggleMusic() {
+// Start music on very first interaction with the page
+function startMusicOnce() {
   const music = document.getElementById('bg-music');
-  const playing = document.getElementById('icon-playing');
-  const muted = document.getElementById('icon-muted');
-  if (musicPlaying) {
-    music.pause();
-    playing.style.display = 'none';
-    muted.style.display = 'block';
-    musicPlaying = false;
-  } else {
-    music.play();
-    playing.style.display = 'block';
-    muted.style.display = 'none';
+  music.play().then(() => {
+    document.getElementById('icon-playing').style.display = 'block';
+    document.getElementById('icon-muted').style.display = 'none';
     musicPlaying = true;
-  }
+  }).catch(() => {});
+  document.removeEventListener('click', startMusicOnce);
+  document.removeEventListener('touchstart', startMusicOnce);
+}
+
+document.addEventListener('click', startMusicOnce);
+document.addEventListener('touchstart', startMusicOnce);
+
+function enterInvitation() {
+  const landing = document.getElementById('landing');
+  landing.classList.add('leaving');
+  setTimeout(() => {
+    landing.style.display = 'none';
+    document.getElementById('invitation').style.display = 'block';
+    window.scrollTo(0, 0);
+  }, 700);
 }
 
 let attending = null;
