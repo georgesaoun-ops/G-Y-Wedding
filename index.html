@@ -335,14 +335,12 @@ button#edit-btn:hover { background: #fff3f0; }
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 <button id="music-btn" onclick="toggleMusic()" title="Music">
-  <!-- Note icon (playing) -->
   <svg id="icon-playing" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
     <path d="M9 18V6l12-2v12" stroke="#c8a96a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <circle cx="6" cy="18" r="3" stroke="#c8a96a" stroke-width="1.5"/>
     <circle cx="18" cy="16" r="3" stroke="#c8a96a" stroke-width="1.5"/>
   </svg>
-  <!-- Muted icon -->
- <svg id="icon-muted" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+  <svg id="icon-muted" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
     <path d="M9 18V6l12-2v12" stroke="#b8a090" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     <circle cx="6" cy="18" r="3" stroke="#b8a090" stroke-width="1.5"/>
     <circle cx="18" cy="16" r="3" stroke="#b8a090" stroke-width="1.5"/>
@@ -408,20 +406,20 @@ button#edit-btn:hover { background: #fff3f0; }
     </iframe>
   </div>
 
-<hr class="divider">
+  <hr class="divider">
 
-<div style="display:flex; flex-direction:column; align-items:center; gap:12px; width:100%;">
-  <p class="invite-text" style="font-size:1.3rem;"><strong>Gift Registry</strong></p>
-  <p class="invite-text" style="font-style:italic; opacity:0.85; line-height:1.8;">
-    Having you with us to celebrate, share laughter and create beautiful memories together is what matters most to us. For those who wish, a registry is available below.
-  </p>
-  <div style="background:white; border-radius:16px; padding:20px 30px; box-shadow:0 4px 20px rgba(0,0,0,0.07); width:100%; max-width:400px;">
-    <p style="margin:0; font-size:1.05rem; color:#74583e;">Wish Money Account</p>
-    <hr style="border:none; border-top:1px solid #c8a96a; margin:10px 0; opacity:0.4;">
-    <p style="margin:0; font-size:1.1rem; color:#74583e; letter-spacing:1px;"><strong>#123456</strong></p>
+  <div style="display:flex; flex-direction:column; align-items:center; gap:12px; width:100%;">
+    <p class="invite-text" style="font-size:1.3rem;"><strong>Gift Registry</strong></p>
+    <p class="invite-text" style="font-style:italic; opacity:0.85; line-height:1.8;">
+      Having you with us to celebrate, share laughter and create beautiful memories together is what matters most to us. For those who wish, a registry is available below.
+    </p>
+    <div style="background:white; border-radius:16px; padding:20px 30px; box-shadow:0 4px 20px rgba(0,0,0,0.07); width:100%; max-width:400px;">
+      <p style="margin:0; font-size:1.05rem; color:#74583e;">Wish Money Account</p>
+      <hr style="border:none; border-top:1px solid #c8a96a; margin:10px 0; opacity:0.4;">
+      <p style="margin:0; font-size:1.1rem; color:#74583e; letter-spacing:1px;"><strong>#123456</strong></p>
+    </div>
   </div>
-</div>
-  
+
   <hr class="divider">
 
   <div class="rsvp-section">
@@ -471,7 +469,7 @@ function validateToken(name, guests, token) {
   }
 }
 
-if(name && guests && validateToken(name, guests, token)){
+if (name && guests && validateToken(name, guests, token)) {
   document.getElementById("message").innerHTML = "<b>" + name + "</b>";
   document.getElementById("num-guests").innerText = guests;
 } else {
@@ -496,25 +494,9 @@ if (name && localStorage.getItem("rsvp_submitted_" + name)) {
   msgEl.classList.add("visible");
 }
 
-function enterInvitation() {
-  const landing = document.getElementById('landing');
-  landing.classList.add('leaving');
-  const music = document.getElementById('bg-music');
-  music.play().then(() => {
-    document.getElementById('icon-playing').style.display = 'block';
-    document.getElementById('icon-muted').style.display = 'none';
-    musicPlaying = true;
-  }).catch(() => {});
-  setTimeout(() => {
-    landing.style.display = 'none';
-    document.getElementById('invitation').style.display = 'block';
-    window.scrollTo(0, 0);
-  }, 700);
-}
-
+// ── MUSIC ──
 let musicPlaying = false;
 
-// Start music on very first interaction with the page
 function startMusicOnce() {
   const music = document.getElementById('bg-music');
   music.play().then(() => {
@@ -529,6 +511,24 @@ function startMusicOnce() {
 document.addEventListener('click', startMusicOnce);
 document.addEventListener('touchstart', startMusicOnce);
 
+function toggleMusic() {
+  const music = document.getElementById('bg-music');
+  const playing = document.getElementById('icon-playing');
+  const muted = document.getElementById('icon-muted');
+  if (musicPlaying) {
+    music.pause();
+    playing.style.display = 'none';
+    muted.style.display = 'block';
+    musicPlaying = false;
+  } else {
+    music.play();
+    playing.style.display = 'block';
+    muted.style.display = 'none';
+    musicPlaying = true;
+  }
+}
+
+// ── LANDING ──
 function enterInvitation() {
   const landing = document.getElementById('landing');
   landing.classList.add('leaving');
@@ -539,6 +539,7 @@ function enterInvitation() {
   }, 700);
 }
 
+// ── RSVP ──
 let attending = null;
 
 function selectAttendance(choice) {
@@ -555,8 +556,8 @@ function selectAttendance(choice) {
   document.getElementById("submit").disabled = false;
 }
 
-function submitForm(){
-  if(attending === null) return;
+function submitForm() {
+  if (attending === null) return;
 
   const submitBtn = document.getElementById("submit");
   submitBtn.textContent = "Sending...";
@@ -631,3 +632,4 @@ function editResponse() {
 </script>
 </body>
 </html>
+
