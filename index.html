@@ -19,7 +19,7 @@ html, body {
   color: #74583e;
 }
 
-  /* ── PAGE FRAME ── */
+/* ── PAGE FRAME ── */
 #page-frame {
   position: fixed;
   inset: 0;
@@ -126,11 +126,6 @@ html, body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes riseInFixed {
-  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
 #landing.leaving {
   animation: fadeOut 0.7s ease forwards;
 }
@@ -208,6 +203,86 @@ h1 {
   margin: 0;
 }
 
+/* ── VENUE SECTION ── */
+.venue-section {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #e8e0d8;
+  padding: 50px 30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.venue-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.8rem;
+  color: #74583e;
+  line-height: 1;
+  margin: 0;
+}
+
+.venue-subtitle {
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(116,88,62,0.6);
+  margin: 0 0 12px;
+}
+
+.venue-img-card {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 30px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.venue-img-card img {
+  width: 100%;
+  max-width: 380px;
+  object-fit: contain;
+}
+
+.venue-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  color: #74583e;
+  margin: 0;
+}
+
+.venue-card-divider {
+  width: 40px;
+  height: 1px;
+  background: #c8a96a;
+  opacity: 0.5;
+}
+
+.venue-date {
+  font-size: 1rem;
+  color: #74583e;
+  font-style: italic;
+  margin: 0;
+}
+
+.venue-address {
+  font-size: 0.95rem;
+  color: #74583e;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── MAP ── */
 .map-wrapper {
   width: 100%;
   border-radius: 15px;
@@ -215,6 +290,7 @@ h1 {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+/* ── RSVP ── */
 .rsvp-section {
   width: 100%;
   display: flex;
@@ -365,7 +441,7 @@ button#edit-btn:hover { background: #fff3f0; }
   <ellipse cx="90" cy="97" rx="3" ry="1.8" transform="rotate(-20,90,97)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
   <ellipse cx="97" cy="90" rx="3" ry="1.8" transform="rotate(-70,97,90)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
 </svg>
-  
+
 <!-- ── BACKGROUND MUSIC ── -->
 <audio id="bg-music" loop>
   <source src="song.mp3" type="audio/mpeg">
@@ -423,17 +499,23 @@ button#edit-btn:hover { background: #fff3f0; }
 
   <h1>Georges & Yara</h1>
 
-  <div class="event-info">
-    <p>Sunday, June 28, 2026</p>
-    <p>5:45 PM</p>
-    <p>at <strong><em>Couvent St. Georges Bherdok, Beit Chabeb</em></strong></p>
-    <p style="font-size: 1rem; font-style: italic;">Ceremony followed by a welcome drink, dinner and celebration.</p>
-    <img
-      src="bherdok-no-background.png"
-      alt="Domaine de Bherdok"
-      style="width:100%; max-width:500px; border-radius:16px; opacity:0.9; margin-top:-10px;"
-    >
+</div><!-- end container -->
+
+<!-- ── VENUE SECTION (full width) ── -->
+<div class="venue-section">
+  <h2 class="venue-title">The Venue</h2>
+  <p class="venue-subtitle">Where we celebrate</p>
+  <div class="venue-img-card">
+    <img src="bherdok-no-background.png" alt="Couvent St. Georges Bherdok">
+    <h3 class="venue-name">Couvent St. Georges</h3>
+    <div class="venue-card-divider"></div>
+    <p class="venue-date">Sunday, June 28, 2026 &nbsp;·&nbsp; 5:45 PM</p>
+    <p class="venue-address">Bherdok, Beit Chabeb, Lebanon</p>
+    <p class="venue-address" style="font-style:italic; font-size:0.9rem; opacity:0.7;">Ceremony followed by a welcome drink, dinner and celebration.</p>
   </div>
+</div>
+
+<div class="container">
 
   <div class="map-wrapper">
     <iframe
@@ -462,6 +544,8 @@ button#edit-btn:hover { background: #fff3f0; }
     </div>
   </div>
 
+  <hr class="divider">
+
   <!-- ── COUNTDOWN ── -->
   <div style="display:flex; flex-direction:column; align-items:center; gap:10px; width:100%;">
     <p class="invite-text" style="font-size:1.3rem;"><strong>Counting Down</strong></p>
@@ -486,9 +570,6 @@ button#edit-btn:hover { background: #fff3f0; }
   </div>
 
   <hr class="divider">
-
-   <!-- ── COUNTDOWN ── -->
-  <div style="display:flex; flex-direction:column; align-items:center; gap:10px; width:100%;">
 
   <!-- ── RSVP ── -->
   <div class="rsvp-section">
@@ -614,23 +695,19 @@ const weddingDate = new Date('2026-06-28T17:45:00+03:00');
 function updateCountdown() {
   const now = new Date();
   const diff = weddingDate - now;
-
   if (diff <= 0) {
     document.getElementById('countdown').innerHTML = '<p style="font-family:\'Great Vibes\',cursive; font-size:2rem; color:#74583e;">Today is the day! 🎉</p>';
     return;
   }
-
   const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
   document.getElementById('cd-days').textContent    = days;
   document.getElementById('cd-hours').textContent   = hours;
   document.getElementById('cd-minutes').textContent = minutes;
   document.getElementById('cd-seconds').textContent = seconds;
 }
-
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
@@ -643,21 +720,16 @@ function selectAttendance(choice) {
   const btnNo = document.getElementById("btn-no");
   btnYes.classList.remove("selected");
   btnNo.classList.remove("selected");
-  if (choice) {
-    btnYes.classList.add("selected");
-  } else {
-    btnNo.classList.add("selected");
-  }
+  if (choice) { btnYes.classList.add("selected"); }
+  else { btnNo.classList.add("selected"); }
   document.getElementById("submit").disabled = false;
 }
 
 function submitForm() {
   if (attending === null) return;
-
   const submitBtn = document.getElementById("submit");
   submitBtn.textContent = "Sending...";
   submitBtn.disabled = true;
-
   const loveMsg = document.getElementById("love-message").value;
   const payload = {
     name: params.get("name") || "Unknown",
@@ -665,11 +737,7 @@ function submitForm() {
     attending: attending ? "Yes" : "No",
     message: loveMsg
   };
-
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  })
+  fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) })
   .then(() => {
     document.querySelector(".rsvp-buttons").style.display = "none";
     document.getElementById("love-message").style.display = "none";
@@ -677,19 +745,15 @@ function submitForm() {
     document.getElementById("reply-deadline").style.display = "none";
     document.getElementById("wishes-label").style.display = "none";
     submitBtn.style.display = "none";
-
     const thankYouText = attending
       ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!"
       : "Thank you for letting us know.";
-
     const msgEl = document.getElementById("thank-you-msg");
     msgEl.textContent = thankYouText;
     msgEl.classList.remove("visible");
     setTimeout(() => msgEl.classList.add("visible"), 10);
-
     document.getElementById("edit-btn").style.display = "inline-block";
     document.getElementById("changed-mind").style.display = "block";
-
     localStorage.setItem("rsvp_submitted_" + name, "true");
     localStorage.setItem("rsvp_message_" + name, thankYouText);
   })
@@ -703,7 +767,6 @@ function submitForm() {
 function editResponse() {
   localStorage.removeItem("rsvp_submitted_" + name);
   localStorage.removeItem("rsvp_message_" + name);
-
   document.querySelector(".rsvp-buttons").style.display = "flex";
   document.getElementById("love-message").style.display = "block";
   document.getElementById("attending-question").style.display = "block";
@@ -714,11 +777,9 @@ function editResponse() {
   document.getElementById("submit").textContent = "Submit";
   document.getElementById("edit-btn").style.display = "none";
   document.getElementById("changed-mind").style.display = "none";
-
   const msgEl = document.getElementById("thank-you-msg");
   msgEl.classList.remove("visible");
   msgEl.textContent = "";
-
   attending = null;
   document.getElementById("btn-yes").classList.remove("selected");
   document.getElementById("btn-no").classList.remove("selected");
