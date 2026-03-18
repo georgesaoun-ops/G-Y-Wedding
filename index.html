@@ -19,15 +19,6 @@ html, body {
   color: #74583e;
 }
 
-/* ── PAGE FRAME ── */
-#page-frame {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 997;
-}
 
 /* ── MUSIC BUTTON ── */
 #music-btn {
@@ -427,26 +418,6 @@ button#edit-btn:hover { background: #fff3f0; }
 </head>
 <body>
 
-<!-- ── PAGE FRAME ── -->
-<!-- Fixed frame: top + sides only (no bottom) -->
-<svg id="page-frame" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Top lines -->
-  <path d="M5,3 Q25,1 50,3 Q75,5 95,3" fill="none" stroke="#c8a96a" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
-  <path d="M5,5 Q25,3 50,5 Q75,7 95,5" fill="none" stroke="rgba(200,169,106,0.3)" stroke-width="0.3" vector-effect="non-scaling-stroke"/>
-  <!-- Left side -->
-  <path d="M3,5 Q1,25 3,50 Q5,75 3,95" fill="none" stroke="#c8a96a" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
-  <!-- Right side -->
-  <path d="M97,5 Q99,25 97,50 Q95,75 97,95" fill="none" stroke="#c8a96a" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
-  <!-- Top-left corner leaves -->
-  <ellipse cx="6" cy="6" rx="4" ry="2.5" transform="rotate(-45,6,6)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.7"/>
-  <ellipse cx="10" cy="3" rx="3" ry="1.8" transform="rotate(-20,10,3)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
-  <ellipse cx="3" cy="10" rx="3" ry="1.8" transform="rotate(-70,3,10)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
-  <!-- Top-right corner leaves -->
-  <ellipse cx="94" cy="6" rx="4" ry="2.5" transform="rotate(45,94,6)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.7"/>
-  <ellipse cx="90" cy="3" rx="3" ry="1.8" transform="rotate(20,90,3)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
-  <ellipse cx="97" cy="10" rx="3" ry="1.8" transform="rotate(70,97,10)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
-</svg>
-
 <!-- ── BACKGROUND MUSIC ── -->
 <audio id="bg-music" loop>
   <source src="song.mp3" type="audio/mpeg">
@@ -603,18 +574,6 @@ button#edit-btn:hover { background: #fff3f0; }
   </div>
 
 </div>
-
-<!-- Static bottom frame -->
-<svg viewBox="0 0 100 10" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:40px; display:block;">
-  <path d="M5,7 Q25,9 50,7 Q75,5 95,7" fill="none" stroke="#c8a96a" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
-  <path d="M5,5 Q25,7 50,5 Q75,3 95,5" fill="none" stroke="rgba(200,169,106,0.3)" stroke-width="0.3" vector-effect="non-scaling-stroke"/>
-  <ellipse cx="6" cy="6" rx="4" ry="2.5" transform="rotate(45,6,6)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.7"/>
-  <ellipse cx="10" cy="8" rx="3" ry="1.8" transform="rotate(20,10,8)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
-  <ellipse cx="3" cy="4" rx="3" ry="1.8" transform="rotate(70,3,4)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
-  <ellipse cx="94" cy="6" rx="4" ry="2.5" transform="rotate(-45,94,6)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.7"/>
-  <ellipse cx="90" cy="8" rx="3" ry="1.8" transform="rotate(-20,90,8)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
-  <ellipse cx="97" cy="4" rx="3" ry="1.8" transform="rotate(-70,97,4)" fill="none" stroke="#c8a96a" stroke-width="0.4" vector-effect="non-scaling-stroke" opacity="0.5"/>
-</svg>
 
 </div><!-- end invitation -->
 
