@@ -368,31 +368,29 @@ div.rsvp-buttons {
 
 button.confirm, button.decline {
   font-size: 1rem;
-  padding: 10px 30px;
-  border-radius: 12px;
-  border: 2px solid transparent;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 36px;
+  border-radius: 30px;
+  border: 1.5px solid #c8a96a;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   transition: all 0.3s ease;
-  background: linear-gradient(90deg, #c8a96a, #b8860b);
-  color: white;
+  background: transparent;
+  color: #74583e;
   font-family: 'EB Garamond', serif;
 }
 
-button.confirm:hover, button.decline:hover { transform: scale(1.05); }
-
-button.confirm.selected {
-  background: linear-gradient(90deg, #2e7d32, #1b5e20);
-  border: 2px solid #a5d6a7;
-  box-shadow: 0 0 18px 4px rgba(46, 125, 50, 0.55);
-  transform: scale(1.08);
+button.confirm:hover, button.decline:hover {
+  background: #c8a96a;
+  color: white;
+  border-color: #c8a96a;
 }
 
-button.decline.selected {
-  background: linear-gradient(90deg, #c62828, #8b0000);
-  border: 2px solid #ef9a9a;
-  box-shadow: 0 0 18px 4px rgba(198, 40, 40, 0.55);
-  transform: scale(1.08);
+button.confirm.selected, button.decline.selected {
+  background: #c8a96a;
+  color: white;
+  border-color: #c8a96a;
+  transform: scale(1.05);
 }
 
 #thank-you-msg {
