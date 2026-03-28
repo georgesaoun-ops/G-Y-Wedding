@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mariage Georges & Yara</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: #fff7ee;
+  font-family: 'EB Garamond', serif;
+  text-align: center;
+  color: #74583e;
+}
+
+/* ── MUSIC BUTTON ── */
+#music-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(200,169,106,0.6);
+  background: rgba(255,247,238,0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #74583e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(116,88,62,0.12);
+  transition: all 0.3s ease;
+  padding: 0;
+}
+#music-btn:hover {
+  border-color: #c8a96a;
+  box-shadow: 0 4px 20px rgba(200,169,106,0.3);
+  transform: scale(1.08);
+}
+#music-btn svg {
+  width: 18px;
+  height: 18px;
+  transition: opacity 0.3s ease;
+}
+
+/* ── LANDING PAGE ── */
+#landing {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 60px;
+  gap: 16px;
+  background-color: #fff7ee;
+  background-image: url('gandyone.jpeg');
+  background-size: cover;
+  background-position: center;
+  z-index: 100;
+  animation: fadeInPage 1.2s ease forwards;
+}
+
+.landing-tagline {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #ffffff;
+  opacity: 0.90;
+  animation: riseIn 1.4s ease 0.7s both;
+  margin-top: -8px;
+}
+
+.landing-enter {
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 12px 40px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.7);
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: riseIn 1.4s ease 0.5s both;
+  margin-top: auto;
+  margin-bottom: 60px;
+}
+
+.landing-enter:hover {
+  background: rgba(255,255,255,0.15);
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.ring-initials {
+  animation: riseIn 1.4s ease 0.3s both;
+}
+
+@keyframes fadeInPage {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#landing.leaving {
+  animation: fadeOut 0.7s ease forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; pointer-events: none; }
+}
+
+/* ── INVITATION PAGE ── */
+#invitation {
+  overflow-y: auto;
+}
+
+/* ── CAROUSEL SECTION ── */
+.carousel-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 20px;
+  overflow: hidden;
+}
+
+.carousel-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+}
+
+/* Dark overlay for readability */
+.carousel-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
+}
+
+/* Text above carousel */
+.carousel-section > *:not(.carousel-bg) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Text colors on dark background */
+.carousel-section .quote {
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+.carousel-section .quote span {
+  color: rgba(255,255,255,0.7);
+}
+
+.carousel-section hr.divider {
+  border-top-color: rgba(255,255,255,0.4);
+}
+
+.carousel-section .family {
+  color: #ffffff;
+}
+
+.carousel-section .invite-text {
+  color: rgba(255,255,255,0.85);
+}
+
+.carousel-section h1 {
+  color: #ffffff;
+  margin-bottom: 40px;
+}
+
+/* ── REST OF PAGE ── */
+.container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.divider {
+  width: 60%;
+  border: none;
+  border-top: 1px solid #c8a96a;
+  margin: 5px 0;
+}
+
+.quote {
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: #74583e;
+  margin: 0;
+}
+
+.quote span {
+  font-size: 0.95rem;
+  font-style: normal;
+}
+
+.family {
+  font-size: 1.5rem;
+  line-height: 2;
+  color: #74583e;
+  margin: 0;
+}
+
+.invite-text {
+  font-size: 1.3rem;
+  color: #74583e;
+  line-height: 1.6;
+  margin: 0;
+}
+
+h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(50px, 12vw, 110px);
+  color: #74583e;
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+#message {
+  font-size: 1.2rem;
+  color: #74583e;
+}
+
+/* ── VENUE SECTION ── */
+.venue-section {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #e8e0d8;
+  padding: 50px 30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.venue-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.8rem;
+  color: #74583e;
+  line-height: 1;
+  margin: 0;
+}
+
+.venue-subtitle {
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(116,88,62,0.6);
+  margin: 0 0 12px;
+}
+
+.venue-img-card {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 30px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.venue-img-card img {
+  width: 100%;
+  max-width: 380px;
+  object-fit: contain;
+}
+
+.venue-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  color: #74583e;
+  margin: 0;
+}
+
+.venue-card-divider {
+  width: 40px;
+  height: 1px;
+  background: #c8a96a;
+  opacity: 0.5;
+}
+
+.venue-date {
+  font-size: 1rem;
+  color: #74583e;
+  font-style: italic;
+  margin: 0;
+}
+
+.venue-address {
+  font-size: 0.95rem;
+  color: #74583e;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── RSVP ── */
+.rsvp-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background: white;
+  border-radius: 20px;
+  padding: 25px 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.rsvp-section p {
+  font-size: 1.15rem;
+  color: #74583e;
+  margin: 0;
+}
+
+div.rsvp-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+button.confirm, button.decline {
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 36px;
+  border-radius: 30px;
+  border: 1.5px solid #c8a96a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #74583e;
+  font-family: 'EB Garamond', serif;
+}
+
+button.confirm:hover, button.decline:hover {
+  background: #c8a96a;
+  color: white;
+  border-color: #c8a96a;
+}
+
+button.confirm.selected, button.decline.selected {
+  background: #c8a96a;
+  color: white;
+  border-color: #c8a96a;
+  transform: scale(1.05);
+}
+
+#thank-you-msg {
+  font-size: 1.1rem;
+  color: #74583e;
+  font-style: italic;
+  font-weight: bold;
+  min-height: 1.5em;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+#thank-you-msg.visible { opacity: 1; }
+
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 15px;
+  font-size: 1rem;
+  border-radius: 15px;
+  border: none;
+  background-color: #fff3f0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  resize: none;
+  font-family: 'EB Garamond', serif;
+}
+
+button#submit {
+  font-size: 1.1rem;
+  padding: 15px 40px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  width: 70%;
+  max-width: 300px;
+  color: white;
+  background: #74583e;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+  font-family: 'EB Garamond', serif;
+}
+
+button#submit:hover { transform: scale(1.05); background: #5c4631; }
+
+button#submit:disabled {
+  background: #d6ccc4;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.45;
+  color: #a89080;
+}
+
+button#edit-btn {
+  font-size: 0.95rem;
+  padding: 8px 25px;
+  border-radius: 12px;
+  border: 1px solid #74583e;
+  background: white;
+  color: #74583e;
+  cursor: pointer;
+  font-family: 'EB Garamond', serif;
+  display: none;
+  transition: all 0.2s ease;
+}
+
+button#edit-btn:hover { background: #fff3f0; }
+
+@media (max-width: 480px) {
+  h1 { font-size: clamp(50px, 15vw, 80px); white-space: nowrap; }
+  .quote { font-size: 1rem; }
+  .family { font-size: 1rem; }
+  .invite-text { font-size: 1rem; }
+  .rsvp-section p { font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── BACKGROUND MUSIC ── -->
+<audio id="bg-music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+<button id="music-btn" onclick="toggleMusic()" title="Music">
+  <svg id="icon-playing" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+    <path d="M9 18V6l12-2v12" stroke="#c8a96a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="6" cy="18" r="3" stroke="#c8a96a" stroke-width="1.5"/>
+    <circle cx="18" cy="16" r="3" stroke="#c8a96a" stroke-width="1.5"/>
+  </svg>
+  <svg id="icon-muted" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+    <path d="M9 18V6l12-2v12" stroke="#b8a090" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="6" cy="18" r="3" stroke="#b8a090" stroke-width="1.5"/>
+    <circle cx="18" cy="16" r="3" stroke="#b8a090" stroke-width="1.5"/>
+    <line x1="3" y1="3" x2="21" y2="21" stroke="#b8a090" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- ── LANDING PAGE ── -->
+<div id="landing">
+  <div class="ring-initials">
+    <svg width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="36" cy="36" r="33" fill="none" stroke="#c8a96a" stroke-width="1.2"/>
+      <circle cx="36" cy="36" r="27" fill="none" stroke="rgba(200,169,106,0.4)" stroke-width="0.7"/>
+      <text x="36" y="42" font-family="Great Vibes, cursive" font-size="18" fill="#74583e" text-anchor="middle">G&amp;Y</text>
+    </svg>
+  </div>
+  <p class="landing-tagline">We can't imagine this day without you...</p>
+  <button class="landing-enter" onclick="enterInvitation()">Enter</button>
+</div>
+
+<!-- ── INVITATION PAGE ── -->
+<div id="invitation" style="display:none;">
+
+  <!-- ── FIRST SECTION WITH CAROUSEL BACKGROUND ── -->
+  <div class="carousel-section">
+
+    <!-- Carousel background -->
+    <div class="carousel-bg">
+      <div class="carousel-slide active" style="background-image:url('gandyone.jpeg')"></div>
+      <div class="carousel-slide" style="background-image:url('gandy2.jpeg')"></div>
+      <div class="carousel-slide" style="background-image:url('gandy3.jpeg')"></div>
+      <div class="carousel-slide" style="background-image:url('gandy4.jpeg')"></div>
+      <div class="carousel-slide" style="background-image:url('gandy5.jpeg')"></div>
+      <div class="carousel-slide" style="background-image:url('gandy6.jpeg')"></div>
+    </div>
+
+    <!-- Content -->
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+      <p class="quote">
+        "What God has joined together, let no one separate."
+        <br>
+        <span>Mark 10:9</span>
+      </p>
+      <hr class="divider" style="margin:8px 0 0 0;">
+    </div>
+
+    <p class="family">
+      With great joy and happiness,
+      <br><br>
+      <strong>Mr. Jihad & Mrs. Caroline Aoun</strong>
+      <br>
+      <em>along with</em>
+      <br>
+      <strong>Mr. Gergi & Mrs. Maha Habib</strong>
+    </p>
+
+    <p class="invite-text">
+      invite you to celebrate the union of their beloved son and daughter
+    </p>
+
+    <h1>Georges & Yara</h1>
+
+  </div>
+
+  <!-- ── VENUE SECTION (full width) ── -->
+  <div class="venue-section">
+    <h2 class="venue-title">The Venue</h2>
+    <p class="venue-subtitle">Where we celebrate</p>
+    <div class="venue-img-card">
+      <img src="bherdok-no-background.png" alt="Couvent St. Georges Bherdok">
+      <h3 class="venue-name">Couvent St. Georges</h3>
+      <div class="venue-card-divider"></div>
+      <p class="venue-date">Sunday, June 28, 2026 &nbsp;·&nbsp; 5:45 PM</p>
+      <p class="venue-address">Bherdok, Beit Chabeb, Lebanon</p>
+      <p class="venue-address" style="font-style:italic; font-weight:bold; font-size:0.9rem; opacity:0.7;">Ceremony followed by a welcome drink, dinner and celebration.</p>
+      <div style="width:100%; border-radius:12px; overflow:hidden; margin-top:10px;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.3563778275015!2d35.6558042!3d33.931961!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f38cc8bb4518d%3A0xcccec2eb86a96eca!2sSt.%20Georges%20Convent!5e0!3m2!1sen!2sfr!4v1773596538223!5m2!1sen!2sfr"
+          width="100%"
+          height="200"
+          style="border: 0; display: block;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <hr class="divider">
+
+    <!-- ── GIFT REGISTRY ── -->
+    <div style="display:flex; flex-direction:column; align-items:center; gap:12px; width:100%;">
+      <h2 class="venue-title">Gift Registry</h2>
+      <p class="invite-text" style="font-style:italic; opacity:0.85; line-height:1.8;">
+        Having you with us to celebrate, share laughter and create beautiful memories together is what matters most to us. For those who wish, a registry is available below.
+      </p>
+      <div style="background:white; border-radius:16px; padding:20px 30px; box-shadow:0 4px 20px rgba(0,0,0,0.07); width:100%; max-width:400px;">
+        <p style="margin:0; font-size:1.05rem; color:#74583e;">Wish Money Account</p>
+        <hr style="border:none; border-top:1px solid #c8a96a; margin:10px 0; opacity:0.4;">
+        <p style="margin:0; font-size:1.1rem; color:#74583e; letter-spacing:1px;"><strong>#123456</strong></p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── COUNTDOWN ── -->
+    <div style="display:flex; flex-direction:column; align-items:center; gap:10px; width:100%;">
+     <h2 class="venue-title">Counting Down</h2>
+      <div id="countdown" style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+          <span id="cd-days" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#74583e; line-height:1;">0</span>
+          <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Days</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+          <span id="cd-hours" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#74583e; line-height:1;">0</span>
+          <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Hours</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+          <span id="cd-minutes" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#74583e; line-height:1;">0</span>
+          <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Minutes</span>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+          <span id="cd-seconds" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#74583e; line-height:1;">0</span>
+          <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Seconds</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── RSVP ── -->
+    <div class="rsvp-section">
+      <h2 class="venue-title">Honor us with your presence</h2>
+      <div id="message"></div>
+      <p>Number of persons invited: <strong><span id="num-guests"></span></strong></p>
+
+      <p id="attending-question">Are you attending?</p>
+      <div class="rsvp-buttons">
+        <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
+        <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
+      </div>
+
+      <p id="reply-deadline">Please reply before June 1, 2026</p>
+
+      <div id="thank-you-msg"></div>
+      <p id="changed-mind" style="font-size: 1rem; font-style: italic; color: #74583e; display: none;">Need to make a change?</p>
+      <button id="edit-btn" onclick="editResponse()">Edit</button>
+
+      <p id="wishes-label">Share your love and wishes:</p>
+      <textarea id="love-message" placeholder="Write your message here..."></textarea>
+
+      <button id="submit" onclick="submitForm()" disabled>Submit</button>
+    </div>
+
+  </div>
+
+</div><!-- end invitation -->
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8kAu5-GDYFDyE4M2BPSWXhwY4ugxJm3vYFe4X0LW35c-nk9I6xgr-TWKYcl-4ZIiRYA/exec";
+
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
+const guests = params.get("guests");
+const token = params.get("token");
+
+function validateToken(name, guests, token) {
+  if (!token) return false;
+  try {
+    let base64 = token.replace(/-/g, "+").replace(/_/g, "/");
+    while (base64.length % 4) base64 += "=";
+    const decoded = atob(base64);
+    const expected = name + "|" + guests + "|GY2026SECRET";
+    return decoded === expected;
+  } catch(e) { return false; }
+}
+
+if (name && guests && validateToken(name, guests, token)) {
+  document.getElementById("message").innerHTML = "<b>" + name + "</b>";
+  document.getElementById("num-guests").innerText = guests;
+} else {
+  document.querySelector(".container").innerHTML = `
+    <h1 style="font-family:'Great Vibes',cursive;color:#74583e;font-size:clamp(50px,12vw,110px);white-space:nowrap;">Georges & Yara</h1>
+    <p style="color:#74583e;font-family:'EB Garamond',serif;font-size:1.2rem;">This invitation link is not valid.</p>
+  `;
+}
+
+if (name && localStorage.getItem("rsvp_submitted_" + name)) {
+  document.querySelector(".rsvp-buttons").style.display = "none";
+  document.getElementById("love-message").style.display = "none";
+  document.getElementById("attending-question").style.display = "none";
+  document.getElementById("reply-deadline").style.display = "none";
+  document.getElementById("wishes-label").style.display = "none";
+  document.getElementById("submit").style.display = "none";
+  document.getElementById("changed-mind").style.display = "block";
+  document.getElementById("edit-btn").style.display = "inline-block";
+  const msgEl = document.getElementById("thank-you-msg");
+  msgEl.textContent = localStorage.getItem("rsvp_message_" + name) || "You have already submitted your response.";
+  msgEl.classList.add("visible");
+}
+
+// ── MUSIC ──
+let musicPlaying = false;
+
+function startMusicOnce() {
+  const music = document.getElementById('bg-music');
+  music.play().then(() => {
+    document.getElementById('icon-playing').style.display = 'block';
+    document.getElementById('icon-muted').style.display = 'none';
+    musicPlaying = true;
+  }).catch(() => {});
+  document.removeEventListener('click', startMusicOnce);
+  document.removeEventListener('touchstart', startMusicOnce);
+}
+
+document.addEventListener('click', startMusicOnce);
+document.addEventListener('touchstart', startMusicOnce);
+
+function toggleMusic() {
+  const music = document.getElementById('bg-music');
+  const playing = document.getElementById('icon-playing');
+  const muted = document.getElementById('icon-muted');
+  if (musicPlaying) {
+    music.pause();
+    playing.style.display = 'none';
+    muted.style.display = 'block';
+    musicPlaying = false;
+  } else {
+    music.play();
+    playing.style.display = 'block';
+    muted.style.display = 'none';
+    musicPlaying = true;
+  }
+}
+
+// ── CAROUSEL ──
+const slides = document.querySelectorAll('.carousel-slide');
+let current = 0;
+setInterval(() => {
+  slides[current].classList.remove('active');
+  current = (current + 1) % slides.length;
+  slides[current].classList.add('active');
+}, 4000);
+
+// ── LANDING ──
+function enterInvitation() {
+  const landing = document.getElementById('landing');
+  landing.classList.add('leaving');
+  setTimeout(() => {
+    landing.style.display = 'none';
+    document.getElementById('invitation').style.display = 'block';
+    window.scrollTo(0, 0);
+  }, 700);
+}
+
+// ── COUNTDOWN ──
+const weddingDate = new Date('2026-06-28T17:45:00+03:00');
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = weddingDate - now;
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML = '<p style="font-family:\'Great Vibes\',cursive;font-size:2rem;color:#74583e;">Today is the day! 🎉</p>';
+    return;
+  }
+  document.getElementById('cd-days').textContent    = Math.floor(diff / (1000*60*60*24));
+  document.getElementById('cd-hours').textContent   = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  document.getElementById('cd-minutes').textContent = Math.floor((diff % (1000*60*60)) / (1000*60));
+  document.getElementById('cd-seconds').textContent = Math.floor((diff % (1000*60)) / 1000);
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ── RSVP ──
+let attending = null;
+
+function selectAttendance(choice) {
+  attending = choice;
+  document.getElementById("btn-yes").classList.remove("selected");
+  document.getElementById("btn-no").classList.remove("selected");
+  if (choice) { document.getElementById("btn-yes").classList.add("selected"); }
+  else { document.getElementById("btn-no").classList.add("selected"); }
+  document.getElementById("submit").disabled = false;
+}
+
+function submitForm() {
+  if (attending === null) return;
+  const submitBtn = document.getElementById("submit");
+  submitBtn.textContent = "Sending...";
+  submitBtn.disabled = true;
+  const payload = {
+    name: params.get("name") || "Unknown",
+    guests: params.get("guests") || "0",
+    attending: attending ? "Yes" : "No",
+    message: document.getElementById("love-message").value
+  };
+  fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) })
+  .then(() => {
+    document.querySelector(".rsvp-buttons").style.display = "none";
+    document.getElementById("love-message").style.display = "none";
+    document.getElementById("attending-question").style.display = "none";
+    document.getElementById("reply-deadline").style.display = "none";
+    document.getElementById("wishes-label").style.display = "none";
+    submitBtn.style.display = "none";
+    const thankYouText = attending
+      ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!"
+      : "Thank you for letting us know.";
+    const msgEl = document.getElementById("thank-you-msg");
+    msgEl.textContent = thankYouText;
+    msgEl.classList.remove("visible");
+    setTimeout(() => msgEl.classList.add("visible"), 10);
+    document.getElementById("edit-btn").style.display = "inline-block";
+    document.getElementById("changed-mind").style.display = "block";
+    localStorage.setItem("rsvp_submitted_" + name, "true");
+    localStorage.setItem("rsvp_message_" + name, thankYouText);
+  })
+  .catch(() => {
+    submitBtn.textContent = "Submit";
+    submitBtn.disabled = false;
+    alert("Something went wrong, please try again.");
+  });
+}
+
+function editResponse() {
+  localStorage.removeItem("rsvp_submitted_" + name);
+  localStorage.removeItem("rsvp_message_" + name);
+  document.querySelector(".rsvp-buttons").style.display = "flex";
+  document.getElementById("love-message").style.display = "block";
+  document.getElementById("attending-question").style.display = "block";
+  document.getElementById("reply-deadline").style.display = "block";
+  document.getElementById("wishes-label").style.display = "block";
+  document.getElementById("submit").style.display = "inline-block";
+  document.getElementById("submit").disabled = true;
+  document.getElementById("submit").textContent = "Submit";
+  document.getElementById("edit-btn").style.display = "none";
+  document.getElementById("changed-mind").style.display = "none";
+  const msgEl = document.getElementById("thank-you-msg");
+  msgEl.classList.remove("visible");
+  msgEl.textContent = "";
+  attending = null;
+  document.getElementById("btn-yes").classList.remove("selected");
+  document.getElementById("btn-no").classList.remove("selected");
+  document.getElementById("love-message").value = "";
+}
+</script>
+</body>
+</html>
