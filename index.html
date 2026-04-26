@@ -362,6 +362,20 @@ button#edit-btn:hover { background: #fff3f0; }
   .invite-text { font-size: 1rem; }
   .rsvp-section p { font-size: 1rem; }
 }
+
+/* ── SCROLL ANIMATIONS ── */
+.venue-title, .venue-subtitle, .venue-img-card,
+.countdown-section, .rsvp-section, .container > div {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.venue-title.visible, .venue-subtitle.visible, .venue-img-card.visible,
+.countdown-section.visible, .rsvp-section.visible, .container > div.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
 </head>
 <body>
@@ -608,6 +622,8 @@ function enterInvitation() {
     landing.style.display = 'none';
     document.getElementById('invitation').style.display = 'block';
     window.scrollTo(0, 0);
+    // Start observing after the invitation page is visible
+    initScrollAnimations();
   }, 700);
 }
 
@@ -699,6 +715,24 @@ function editResponse() {
   document.getElementById("btn-yes").classList.remove("selected");
   document.getElementById("btn-no").classList.remove("selected");
   document.getElementById("love-message").value = "";
+}
+
+// ── SCROLL ANIMATIONS ──
+function initScrollAnimations() {
+  const observerTargets = document.querySelectorAll(
+    '.venue-title, .venue-subtitle, .venue-img-card, .countdown-section, .rsvp-section, .container > div'
+  );
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  observerTargets.forEach(el => observer.observe(el));
 }
 </script>
 </body>
