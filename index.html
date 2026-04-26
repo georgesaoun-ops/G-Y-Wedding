@@ -102,32 +102,16 @@ html, body {
   border-color: #ffffff;
 }
 
-.ring-initials {
-  animation: riseIn 1.4s ease 0.3s both;
-}
+.ring-initials { animation: riseIn 1.4s ease 0.3s both; }
 
-@keyframes fadeInPage {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+@keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-@keyframes riseIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-#landing.leaving {
-  animation: fadeOut 0.7s ease forwards;
-}
-
-@keyframes fadeOut {
-  to { opacity: 0; pointer-events: none; }
-}
+#landing.leaving { animation: fadeOut 0.7s ease forwards; }
+@keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
 
 /* ── INVITATION PAGE ── */
-#invitation {
-  overflow-y: auto;
-}
+#invitation { overflow-y: auto; }
 
 /* ── CAROUSEL SECTION ── */
 .carousel-section {
@@ -142,11 +126,7 @@ html, body {
   overflow: hidden;
 }
 
-.carousel-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
+.carousel-bg { position: absolute; inset: 0; z-index: 0; }
 
 .carousel-slide {
   position: absolute;
@@ -157,11 +137,8 @@ html, body {
   transition: opacity 1.2s ease;
 }
 
-.carousel-slide.active {
-  opacity: 1;
-}
+.carousel-slide.active { opacity: 1; }
 
-/* Dark overlay for readability */
 .carousel-bg::after {
   content: '';
   position: absolute;
@@ -170,40 +147,15 @@ html, body {
   z-index: 1;
 }
 
-/* Text above carousel */
-.carousel-section > *:not(.carousel-bg) {
-  position: relative;
-  z-index: 2;
-}
+.carousel-section > *:not(.carousel-bg) { position: relative; z-index: 2; }
+.carousel-section .quote { color: #ffffff; opacity: 0.9; }
+.carousel-section .quote span { color: rgba(255,255,255,0.7); }
+.carousel-section hr.divider { border-top-color: rgba(255,255,255,0.4); }
+.carousel-section .family { color: #ffffff; }
+.carousel-section .invite-text { color: rgba(255,255,255,0.85); }
+.carousel-section h1 { color: #ffffff; margin-bottom: 40px; }
 
-/* Text colors on dark background */
-.carousel-section .quote {
-  color: #ffffff;
-  opacity: 0.9;
-}
-
-.carousel-section .quote span {
-  color: rgba(255,255,255,0.7);
-}
-
-.carousel-section hr.divider {
-  border-top-color: rgba(255,255,255,0.4);
-}
-
-.carousel-section .family {
-  color: #ffffff;
-}
-
-.carousel-section .invite-text {
-  color: rgba(255,255,255,0.85);
-}
-
-.carousel-section h1 {
-  color: #ffffff;
-  margin-bottom: 40px;
-}
-
-/* ── REST OF PAGE ── */
+/* ── CONTAINER ── */
 .container {
   width: 90%;
   max-width: 600px;
@@ -222,32 +174,10 @@ html, body {
   margin: 5px 0;
 }
 
-.quote {
-  font-size: 1.2rem;
-  font-style: italic;
-  line-height: 1.6;
-  color: #74583e;
-  margin: 0;
-}
-
-.quote span {
-  font-size: 0.95rem;
-  font-style: normal;
-}
-
-.family {
-  font-size: 1.5rem;
-  line-height: 2;
-  color: #74583e;
-  margin: 0;
-}
-
-.invite-text {
-  font-size: 1.3rem;
-  color: #74583e;
-  line-height: 1.6;
-  margin: 0;
-}
+.quote { font-size: 1.2rem; font-style: italic; line-height: 1.6; color: #74583e; margin: 0; }
+.quote span { font-size: 0.95rem; font-style: normal; }
+.family { font-size: 1.5rem; line-height: 2; color: #74583e; margin: 0; }
+.invite-text { font-size: 1.3rem; color: #74583e; line-height: 1.6; margin: 0; }
 
 h1 {
   font-family: 'Great Vibes', cursive;
@@ -258,10 +188,7 @@ h1 {
   white-space: nowrap;
 }
 
-#message {
-  font-size: 1.2rem;
-  color: #74583e;
-}
+#message { font-size: 1.2rem; color: #74583e; }
 
 /* ── VENUE SECTION ── */
 .venue-section {
@@ -269,7 +196,7 @@ h1 {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  background: #fff7ee;
+  overflow: hidden;
   padding: 50px 30px 40px;
   display: flex;
   flex-direction: column;
@@ -277,6 +204,8 @@ h1 {
   gap: 6px;
   text-align: center;
 }
+
+.venue-section > *:not(#stars-canvas) { position: relative; z-index: 1; }
 
 .venue-title {
   font-family: 'Great Vibes', cursive;
@@ -308,39 +237,24 @@ h1 {
   margin: 10px 0;
 }
 
-.venue-img-card img {
+.venue-img-card img { width: 100%; max-width: 380px; object-fit: contain; }
+.venue-name { font-family: 'Great Vibes', cursive; font-size: 2rem; color: #74583e; margin: 0; }
+.venue-card-divider { width: 40px; height: 1px; background: #c8a96a; opacity: 0.5; }
+.venue-date { font-size: 1rem; color: #74583e; font-style: italic; margin: 0; }
+.venue-address { font-size: 0.95rem; color: #74583e; margin: 0; line-height: 1.6; }
+
+/* ── COUNTDOWN SECTION (full width, standalone) ── */
+.countdown-section {
   width: 100%;
-  max-width: 380px;
-  object-fit: contain;
+  background: #0d1b3e;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-.venue-name {
-  font-family: 'Great Vibes', cursive;
-  font-size: 2rem;
-  color: #74583e;
-  margin: 0;
-}
-
-.venue-card-divider {
-  width: 40px;
-  height: 1px;
-  background: #c8a96a;
-  opacity: 0.5;
-}
-
-.venue-date {
-  font-size: 1rem;
-  color: #74583e;
-  font-style: italic;
-  margin: 0;
-}
-
-.venue-address {
-  font-size: 0.95rem;
-  color: #74583e;
-  margin: 0;
-  line-height: 1.6;
-}
+.countdown-section .venue-title { color: #e8dcc8; }
 
 /* ── RSVP ── */
 .rsvp-section {
@@ -355,17 +269,8 @@ h1 {
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-.rsvp-section p {
-  font-size: 1.15rem;
-  color: #74583e;
-  margin: 0;
-}
-
-div.rsvp-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
+.rsvp-section p { font-size: 1.15rem; color: #74583e; margin: 0; }
+div.rsvp-buttons { display: flex; justify-content: center; gap: 15px; }
 
 button.confirm, button.decline {
   font-size: 1rem;
@@ -381,18 +286,8 @@ button.confirm, button.decline {
   font-family: 'EB Garamond', serif;
 }
 
-button.confirm:hover, button.decline:hover {
-  background: #c8a96a;
-  color: white;
-  border-color: #c8a96a;
-}
-
-button.confirm.selected, button.decline.selected {
-  background: #c8a96a;
-  color: white;
-  border-color: #c8a96a;
-  transform: scale(1.05);
-}
+button.confirm:hover, button.decline:hover { background: #c8a96a; color: white; border-color: #c8a96a; }
+button.confirm.selected, button.decline.selected { background: #c8a96a; color: white; border-color: #c8a96a; transform: scale(1.05); }
 
 #thank-you-msg {
   font-size: 1.1rem;
@@ -505,10 +400,8 @@ button#edit-btn:hover { background: #fff3f0; }
 <!-- ── INVITATION PAGE ── -->
 <div id="invitation" style="display:none;">
 
-  <!-- ── FIRST SECTION WITH CAROUSEL BACKGROUND ── -->
+  <!-- ── CAROUSEL SECTION ── -->
   <div class="carousel-section">
-
-    <!-- Carousel background -->
     <div class="carousel-bg">
       <div class="carousel-slide active" style="background-image:url('gandyone.jpeg')"></div>
       <div class="carousel-slide" style="background-image:url('gandy2.jpeg')"></div>
@@ -517,36 +410,25 @@ button#edit-btn:hover { background: #fff3f0; }
       <div class="carousel-slide" style="background-image:url('gandy5.jpeg')"></div>
       <div class="carousel-slide" style="background-image:url('gandy6.jpeg')"></div>
     </div>
-
-    <!-- Content -->
     <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
       <p class="quote">
         "What God has joined together, let no one separate."
-        <br>
-        <span>Mark 10:9</span>
+        <br><span>Mark 10:9</span>
       </p>
       <hr class="divider" style="margin:8px 0 0 0;">
     </div>
-
     <p class="family">
       With great joy and happiness,
       <br><br>
       <strong>Mr. Jihad & Mrs. Caroline Aoun</strong>
-      <br>
-      <em>along with</em>
-      <br>
+      <br><em>along with</em><br>
       <strong>Mr. Gergi & Mrs. Maha Habib</strong>
     </p>
-
-    <p class="invite-text">
-      invite you to celebrate the union of their beloved son and daughter
-    </p>
-
+    <p class="invite-text">invite you to celebrate the union of their beloved son and daughter</p>
     <h1>Georges & Yara</h1>
-
   </div>
 
-  <!-- ── VENUE SECTION (full width) ── -->
+  <!-- ── VENUE SECTION ── -->
   <div class="venue-section">
     <h2 class="venue-title">The Venue</h2>
     <p class="venue-subtitle">Where we celebrate</p>
@@ -560,22 +442,65 @@ button#edit-btn:hover { background: #fff3f0; }
       <div style="width:100%; border-radius:12px; overflow:hidden; margin-top:10px;">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.3563778275015!2d35.6558042!3d33.931961!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f38cc8bb4518d%3A0xcccec2eb86a96eca!2sSt.%20Georges%20Convent!5e0!3m2!1sen!2sfr!4v1773596538223!5m2!1sen!2sfr"
-          width="100%"
-          height="200"
-          style="border: 0; display: block;"
-          allowfullscreen=""
-          loading="lazy"
+          width="100%" height="200"
+          style="border:0; display:block;"
+          allowfullscreen="" loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
       </div>
     </div>
+    <!-- Starfield canvas -->
+    <canvas id="stars-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <script>
+    (function(){
+      const canvas = document.getElementById('stars-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, stars = [], shootingStars = [];
+      function resize(){ W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+      function initStars(){
+        stars = [];
+        const count = Math.floor((W * H) / 800);
+        for(let i=0; i<count; i++){
+          stars.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+0.2, alpha: Math.random()*0.7+0.2, speed: Math.random()*0.003+0.001, phase: Math.random()*Math.PI*2 });
+        }
+      }
+      function spawnShootingStar(){
+        shootingStars.push({ x: Math.random()*W*0.8, y: 0, vx: 3+Math.random()*4, vy: 1.5+Math.random()*2, alpha: 1, length: 80+Math.random()*60 });
+      }
+      let frame = 0;
+      function draw(){
+        ctx.clearRect(0,0,W,H);
+        ctx.fillStyle = '#0a0f2e'; ctx.fillRect(0,0,W,H);
+        for(let s of stars){
+          const a = s.alpha * (0.5 + 0.5*Math.sin(frame*s.speed + s.phase));
+          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(220,230,255,${a})`; ctx.fill();
+        }
+        for(let i=shootingStars.length-1; i>=0; i--){
+          const ss = shootingStars[i];
+          const grad = ctx.createLinearGradient(ss.x-ss.vx*(ss.length/4), ss.y-ss.vy*(ss.length/4), ss.x, ss.y);
+          grad.addColorStop(0, `rgba(255,255,255,0)`);
+          grad.addColorStop(1, `rgba(255,255,255,${ss.alpha})`);
+          ctx.beginPath();
+          ctx.moveTo(ss.x-ss.vx*(ss.length/4), ss.y-ss.vy*(ss.length/4));
+          ctx.lineTo(ss.x, ss.y);
+          ctx.strokeStyle = grad; ctx.lineWidth = 1.5; ctx.stroke();
+          ss.x += ss.vx; ss.y += ss.vy; ss.alpha -= 0.018;
+          if(ss.alpha <= 0) shootingStars.splice(i,1);
+        }
+        frame++; requestAnimationFrame(draw);
+      }
+      window.addEventListener('resize', ()=>{ resize(); initStars(); });
+      resize(); initStars(); draw();
+      setInterval(spawnShootingStar, 3500);
+      setTimeout(spawnShootingStar, 800);
+    })();
+    </script>
   </div>
 
+  <!-- ── GIFT REGISTRY ── -->
   <div class="container">
-
     <hr class="divider">
-
-    <!-- ── GIFT REGISTRY ── -->
     <div style="display:flex; flex-direction:column; align-items:center; gap:12px; width:100%;">
       <h2 class="venue-title">Gift Registry</h2>
       <p class="invite-text" style="font-style:italic; opacity:0.85; line-height:1.8;">
@@ -587,58 +512,52 @@ button#edit-btn:hover { background: #fff3f0; }
         <p style="margin:0; font-size:1.1rem; color:#74583e; letter-spacing:1px;"><strong>#123456</strong></p>
       </div>
     </div>
-
     <hr class="divider">
+  </div>
 
-    <!-- ── COUNTDOWN ── -->
-    <div style="display:flex; flex-direction:column; align-items:center; gap:10px; width:100vw; position:relative; left:50%; transform:translateX(-50%); background:#0d1b3e; padding:40px 20px;">
-     <h2 class="venue-title">Counting Down</h2>
-      <div id="countdown" style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
-        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-          <span id="cd-days" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#74583e; line-height:1;">0</span>
-          <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Days</span>
-        </div>
-        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-          <span id="cd-hours" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#74583e; line-height:1;">0</span>
-          <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Hours</span>
-        </div>
-        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-          <span id="cd-minutes" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#74583e; line-height:1;">0</span>
-          <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Minutes</span>
-        </div>
-        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-          <span id="cd-seconds" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#74583e; line-height:1;">0</span>
-          <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Seconds</span>
-        </div>
+  <!-- ── COUNTDOWN (full width, outside container) ── -->
+  <div class="countdown-section">
+    <h2 class="venue-title">Counting Down</h2>
+    <div id="countdown" style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+        <span id="cd-days" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#e8dcc8; line-height:1;">0</span>
+        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Days</span>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+        <span id="cd-hours" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#e8dcc8; line-height:1;">0</span>
+        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Hours</span>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+        <span id="cd-minutes" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#e8dcc8; line-height:1;">0</span>
+        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Minutes</span>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+        <span id="cd-seconds" style="font-family:'Great Vibes',cursive; font-size:3rem; color:#e8dcc8; line-height:1;">0</span>
+        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Seconds</span>
       </div>
     </div>
+  </div>
 
+  <!-- ── RSVP ── -->
+  <div class="container">
     <hr class="divider">
-
-    <!-- ── RSVP ── -->
     <div class="rsvp-section">
       <h2 class="venue-title">Honor us with your presence</h2>
       <div id="message"></div>
       <p>Number of persons invited: <strong><span id="num-guests"></span></strong></p>
-
       <p id="attending-question">Are you attending?</p>
       <div class="rsvp-buttons">
         <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
         <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
       </div>
-
       <p id="reply-deadline">Please reply before June 1, 2026</p>
-
       <div id="thank-you-msg"></div>
-      <p id="changed-mind" style="font-size: 1rem; font-style: italic; color: #74583e; display: none;">Need to make a change?</p>
+      <p id="changed-mind" style="font-size:1rem; font-style:italic; color:#74583e; display:none;">Need to make a change?</p>
       <button id="edit-btn" onclick="editResponse()">Edit</button>
-
       <p id="wishes-label">Share your love and wishes:</p>
       <textarea id="love-message" placeholder="Write your message here..."></textarea>
-
       <button id="submit" onclick="submitForm()" disabled>Submit</button>
     </div>
-
   </div>
 
 </div><!-- end invitation -->
@@ -747,7 +666,7 @@ function updateCountdown() {
   const now = new Date();
   const diff = weddingDate - now;
   if (diff <= 0) {
-    document.getElementById('countdown').innerHTML = '<p style="font-family:\'Great Vibes\',cursive;font-size:2rem;color:#74583e;">Today is the day! 🎉</p>';
+    document.getElementById('countdown').innerHTML = '<p style="font-family:\'Great Vibes\',cursive;font-size:2rem;color:#e8dcc8;">Today is the day! 🎉</p>';
     return;
   }
   document.getElementById('cd-days').textContent    = Math.floor(diff / (1000*60*60*24));
