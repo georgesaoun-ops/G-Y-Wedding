@@ -449,53 +449,6 @@ button#edit-btn:hover { background: #fff3f0; }
         </iframe>
       </div>
     </div>
-    <!-- Starfield canvas -->
-    <canvas id="stars-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
-    <script>
-    (function(){
-      const canvas = document.getElementById('stars-canvas');
-      const ctx = canvas.getContext('2d');
-      let W, H, stars = [], shootingStars = [];
-      function resize(){ W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
-      function initStars(){
-        stars = [];
-        const count = Math.floor((W * H) / 800);
-        for(let i=0; i<count; i++){
-          stars.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.4+0.2, alpha: Math.random()*0.7+0.2, speed: Math.random()*0.003+0.001, phase: Math.random()*Math.PI*2 });
-        }
-      }
-      function spawnShootingStar(){
-        shootingStars.push({ x: Math.random()*W*0.8, y: 0, vx: 3+Math.random()*4, vy: 1.5+Math.random()*2, alpha: 1, length: 80+Math.random()*60 });
-      }
-      let frame = 0;
-      function draw(){
-        ctx.clearRect(0,0,W,H);
-        ctx.fillStyle = '#0a0f2e'; ctx.fillRect(0,0,W,H);
-        for(let s of stars){
-          const a = s.alpha * (0.5 + 0.5*Math.sin(frame*s.speed + s.phase));
-          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-          ctx.fillStyle = `rgba(220,230,255,${a})`; ctx.fill();
-        }
-        for(let i=shootingStars.length-1; i>=0; i--){
-          const ss = shootingStars[i];
-          const grad = ctx.createLinearGradient(ss.x-ss.vx*(ss.length/4), ss.y-ss.vy*(ss.length/4), ss.x, ss.y);
-          grad.addColorStop(0, `rgba(255,255,255,0)`);
-          grad.addColorStop(1, `rgba(255,255,255,${ss.alpha})`);
-          ctx.beginPath();
-          ctx.moveTo(ss.x-ss.vx*(ss.length/4), ss.y-ss.vy*(ss.length/4));
-          ctx.lineTo(ss.x, ss.y);
-          ctx.strokeStyle = grad; ctx.lineWidth = 1.5; ctx.stroke();
-          ss.x += ss.vx; ss.y += ss.vy; ss.alpha -= 0.018;
-          if(ss.alpha <= 0) shootingStars.splice(i,1);
-        }
-        frame++; requestAnimationFrame(draw);
-      }
-      window.addEventListener('resize', ()=>{ resize(); initStars(); });
-      resize(); initStars(); draw();
-      setInterval(spawnShootingStar, 3500);
-      setTimeout(spawnShootingStar, 800);
-    })();
-    </script>
   </div>
 
   <!-- ── COUNTDOWN (full width, outside container) ── -->
