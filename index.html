@@ -517,18 +517,18 @@ button#edit-btn:hover { background: #fff3f0; }
   <button class="landing-enter" onclick="enterInvitation()">Enter</button>
 </div>
 
+<!-- ── FIXED CAROUSEL BACKGROUND ── -->
+<div id="carousel-bg-fixed" style="display:none;">
+  <div class="carousel-slide active" style="background-image:url('gandyone.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy2.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy3.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy4.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy5.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy6.jpeg')"></div>
+</div>
+
 <!-- ── INVITATION PAGE ── -->
 <div id="invitation" style="display:none;">
-
-  <!-- ── FIXED CAROUSEL BACKGROUND ── -->
-  <div id="carousel-bg-fixed">
-    <div class="carousel-slide active" style="background-image:url('gandyone.jpeg')"></div>
-    <div class="carousel-slide" style="background-image:url('gandy2.jpeg')"></div>
-    <div class="carousel-slide" style="background-image:url('gandy3.jpeg')"></div>
-    <div class="carousel-slide" style="background-image:url('gandy4.jpeg')"></div>
-    <div class="carousel-slide" style="background-image:url('gandy5.jpeg')"></div>
-    <div class="carousel-slide" style="background-image:url('gandy6.jpeg')"></div>
-  </div>
 
   <!-- ── SCROLLABLE CONTENT ── -->
   <div id="invitation-content">
@@ -735,6 +735,7 @@ function enterInvitation() {
   landing.classList.add('leaving');
   setTimeout(() => {
     landing.style.display = 'none';
+    document.getElementById('carousel-bg-fixed').style.display = 'block';
     document.getElementById('invitation').style.display = 'block';
     window.scrollTo(0, 0);
     initScrollAnimations();
