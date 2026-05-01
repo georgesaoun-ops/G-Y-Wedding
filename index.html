@@ -116,8 +116,10 @@ html, body {
 /* ── INVITATION PAGE ── */
 #invitation {
   position: relative;
-  min-height: 100vh;
-  overflow: hidden;
+  height: 100svh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── FIXED CAROUSEL BACKGROUND ── */
@@ -153,12 +155,7 @@ html, body {
   position: relative;
   z-index: 2;
   pointer-events: none;
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100svh;
-  -webkit-overflow-scrolling: touch;
 }
-
 #invitation-content > * {
   pointer-events: all;
 }
