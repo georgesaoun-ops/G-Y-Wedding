@@ -73,7 +73,6 @@ html, body {
   animation: fadeInPage 1.2s ease forwards;
 }
 
-
 .landing-tagline {
   font-size: 1.2rem;
   font-style: italic;
@@ -115,62 +114,132 @@ html, body {
 @keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
 
 /* ── INVITATION PAGE ── */
-#invitation { overflow-y: auto; }
-
-/* ── CAROUSEL SECTION ── */
-.carousel-section {
+#invitation {
   position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 80px 20px;
-  overflow: hidden;
+  height: 100svh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
-.carousel-bg { position: absolute; inset: 0; z-index: 0; }
-
-.carousel-slide {
+/* ── FIXED CAROUSEL BACKGROUND ── */
+#carousel-bg-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+}
+#carousel-bg-fixed .carousel-slide {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transition: opacity 1.2s ease;
+  transition: opacity 1.8s ease;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
-
-.carousel-slide.active { opacity: 1; }
-
-.carousel-bg::after {
+#carousel-bg-fixed .carousel-slide.active {
+  opacity: 1;
+}
+#carousel-bg-fixed::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0, 0, 0, 0.38);
   z-index: 1;
 }
 
-.carousel-section > *:not(.carousel-bg) { position: relative; z-index: 2; }
-.carousel-section .quote { color: #ffffff; opacity: 0.9; }
-.carousel-section .quote span { color: rgba(255,255,255,0.7); }
-.carousel-section hr.divider { border-top-color: #c8a96a; }
-.carousel-section .family { color: #ffffff; }
-.carousel-section .invite-text { color: rgba(255,255,255,0.85); }
-.carousel-section h1 { color: #c8a96a; margin-bottom: 40px; padding: 0 10px 10px 15px; }
+/* ── SCROLLABLE CONTENT LAYER ── */
+#invitation-content {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+#invitation-content > * {
+  pointer-events: all;
+}
 
-/* ── CONTAINER ── */
-.container {
-  width: 90%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 40px 20px 60px;
+/* ── SNAP SECTIONS ── */
+.snap-section {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
+  padding: 60px 20px;
+  scroll-snap-align: start;
 }
 
+/* ── TRANSPARENT CONTENT CARDS ── */
+.content-card {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 24px;
+  padding: 40px 36px;
+  width: 90%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: none;
+  border: 1px solid #c8a96a;
+}
+
+/* ── HERO TEXT ── */
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.hero-middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.hero-middle .family { font-size: 1.5rem; line-height: 2; color: #ffffff; }
+.hero-middle .invite-text { font-size: 1.3rem; line-height: 1.6; color: rgba(255,255,255,0.85); }
+.hero-text .quote { margin-bottom: 0; color: #ffffff; }
+.hero-text hr.divider { border-top-color: #c8a96a; margin: 0; }
+.hero-text .quote span { color: rgba(255,255,255,0.7); }
+  
+/* ── COUNTDOWN inside card ── */
+.countdown-inner {
+  display: flex;
+  gap: clamp(8px,4vw,28px);
+  justify-content: center;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.cd-num {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 8vw, 3.4rem);
+  color: #74583e;
+  line-height: 1;
+  display: block;
+}
+
+.cd-label {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #c8a96a;
+  display: block;
+}
+
+/* ── SHARED ELEMENTS ── */
 .divider {
   width: 60%;
   border: none;
@@ -178,10 +247,10 @@ html, body {
   margin: 5px 0;
 }
 
-.quote { font-size: 1.2rem; font-style: italic; line-height: 1.6; color: #74583e; margin: 0; }
+.quote { font-size: 1.2rem; font-style: italic; line-height: 1.6; margin: 0; }
 .quote span { font-size: 0.95rem; font-style: normal; }
-.family { font-size: 1.5rem; line-height: 2; color: #74583e; margin: 0; }
-.invite-text { font-size: 1.3rem; color: #74583e; line-height: 1.6; margin: 0; }
+.family { font-size: 1.5rem; line-height: 2; margin: 0; }
+.invite-text { font-size: 1.3rem; line-height: 1.6; margin: 0; }
 
 h1 {
   font-family: 'Great Vibes', cursive;
@@ -192,25 +261,58 @@ h1 {
   white-space: nowrap;
 }
 
-#message { font-size: 1.2rem; color: #74583e; }
-
-/* ── VENUE SECTION ── */
-.venue-section {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  overflow: visible;
-  padding: 50px 30px 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  text-align: center;
+/* ── TEXT INSIDE CARDS (on photo bg) ── */
+.content-card .venue-title,
+.content-card .venue-subtitle,
+.content-card .venue-name,
+.content-card .venue-date,
+.content-card .venue-address,
+.content-card .invite-text,
+.content-card p,
+.content-card h2,
+.content-card h3 {
+  color: #ffffff;
 }
 
-.venue-section > *:not(#stars-canvas) { position: relative; z-index: 1; }
+.content-card .venue-subtitle { color: rgba(255,255,255,0.65); }
+.content-card .venue-address { color: rgba(255,255,255,0.85); }
+.content-card .cd-num { color: #e8c97a; }
+.content-card .cd-label { color: #c8a96a; }
+.content-card .venue-card-divider { background: #c8a96a; }
 
+/* RSVP buttons & inner elements stay legible */
+.content-card button.confirm,
+.content-card button.decline {
+  border-color: #c8a96a;
+  color: #ffffff;
+}
+.content-card button.confirm:hover,
+.content-card button.decline:hover,
+.content-card button.confirm.selected,
+.content-card button.decline.selected {
+  background: #c8a96a;
+  color: white;
+}
+.content-card #thank-you-msg { color: #ffffff; }
+.content-card #changed-mind { color: rgba(255,255,255,0.8) !important; }
+.content-card textarea {
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+  border: 1px solid rgba(200,169,106,0.5);
+}
+.content-card textarea::placeholder { color: rgba(255,255,255,0.5); }
+
+/* Inner white gift box */
+.content-card .gift-inner {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(200,169,106,0.4);
+  border-radius: 16px;
+  padding: 20px 30px;
+  width: 100%;
+  max-width: 400px;
+}
+.content-card .gift-inner p { color: #ffffff; margin: 0; }
+.content-card .gift-inner hr { border: none; border-top: 1px solid #c8a96a; margin: 10px 0; opacity: 0.5; }
 .venue-title {
   font-family: 'Great Vibes', cursive;
   font-size: 2.8rem;
@@ -227,38 +329,10 @@ h1 {
   margin: 0 0 12px;
 }
 
-.venue-img-card {
-  width: 100%;
-  max-width: 480px;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 30px 20px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin: 10px 0;
-}
-
-.venue-img-card img { width: 100%; max-width: 380px; object-fit: contain; }
 .venue-name { font-family: 'Great Vibes', cursive; font-size: 2rem; color: #74583e; margin: 0; }
 .venue-card-divider { width: 40px; height: 1px; background: #c8a96a; opacity: 0.5; }
 .venue-date { font-size: 1rem; color: #74583e; font-style: italic; margin: 0; }
 .venue-address { font-size: 0.95rem; color: #74583e; margin: 0; line-height: 1.6; }
-
-/* ── COUNTDOWN SECTION (full width, standalone) ── */
-.countdown-section {
-  width: 100%;
-  background: #0a1628;
-  padding: 50px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.countdown-section .venue-title { color: #e8dcc8; }
 
 /* ── RSVP ── */
 .rsvp-section {
@@ -267,13 +341,13 @@ h1 {
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  background: white;
-  border-radius: 20px;
-  padding: 25px 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-.rsvp-section p { font-size: 1.15rem; color: #74583e; margin: 0; }
+.rsvp-section p { font-size: 1.15rem; color: #ffffff; margin: 0; }
+.rsvp-section #message { color: #ffffff; }
+.rsvp-section #attending-question { color: #ffffff; }
+.rsvp-section #reply-deadline { color: #ffffff; }
+.rsvp-section #wishes-label { color: #ffffff; }
 div.rsvp-buttons { display: flex; justify-content: center; gap: 15px; }
 
 button.confirm, button.decline {
@@ -359,27 +433,50 @@ button#edit-btn {
 
 button#edit-btn:hover { background: #fff3f0; }
 
+#message { font-size: 1.2rem; color: #74583e; }
+
 @media (max-width: 480px) {
   h1 { font-size: clamp(50px, 15vw, 80px); white-space: nowrap; }
   .quote { font-size: 1rem; }
   .family { font-size: 1rem; }
   .invite-text { font-size: 1rem; }
   .rsvp-section p { font-size: 1rem; }
+  .content-card { padding: 28px 20px; }
 }
 
 /* ── SCROLL ANIMATIONS ── */
-.venue-title, .venue-subtitle, .venue-img-card,
-.countdown-section, .rsvp-section, .container > div {
+.content-card, .hero-text {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-
-.venue-title.visible, .venue-subtitle.visible, .venue-img-card.visible,
-.countdown-section.visible, .rsvp-section.visible, .container > div.visible {
+.content-card.visible, .hero-text.visible {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ── MAPS BUTTON ── */
+.maps-btn {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 24px; border-radius: 16px;
+  border: 1px solid rgba(200,169,106,0.5);
+  background: rgba(200,169,106,0.08);
+  color: #ffffff; font-family: 'EB Garamond', serif;
+  text-decoration: none; transition: all 0.3s ease;
+  margin-top: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.maps-btn:hover { background: rgba(200,169,106,0.2); border-color: #c8a96a; }
+.maps-icon {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: #c8a96a; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0;
+}
+.maps-icon svg { width: 18px; height: 18px; }
+.maps-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.maps-label { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: #c8a96a; }
+.maps-name { font-size: 1.05rem; }
 </style>
 </head>
 <body>
@@ -415,125 +512,131 @@ button#edit-btn:hover { background: #fff3f0; }
   <button class="landing-enter" onclick="enterInvitation()">Enter</button>
 </div>
 
+<!-- ── FIXED CAROUSEL BACKGROUND ── -->
+<div id="carousel-bg-fixed" style="display:none;">
+  <div class="carousel-slide active" style="background-image:url('gandyone.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy2.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy3.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy4.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy5.jpeg')"></div>
+  <div class="carousel-slide" style="background-image:url('gandy6.jpeg')"></div>
+</div>
+
 <!-- ── INVITATION PAGE ── -->
 <div id="invitation" style="display:none;">
 
-  <!-- ── CAROUSEL SECTION ── -->
-  <div class="carousel-section">
-    <div class="carousel-bg">
-      <div class="carousel-slide active" style="background-image:url('gandyone.jpeg')"></div>
-      <div class="carousel-slide" style="background-image:url('gandy2.jpeg')"></div>
-      <div class="carousel-slide" style="background-image:url('gandy3.jpeg')"></div>
-      <div class="carousel-slide" style="background-image:url('gandy4.jpeg')"></div>
-      <div class="carousel-slide" style="background-image:url('gandy5.jpeg')"></div>
-      <div class="carousel-slide" style="background-image:url('gandy6.jpeg')"></div>
-    </div>
-    <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-      <p class="quote">
-        "What God has joined together, let no one separate."
-        <br><span>Mark 10:9</span>
-      </p>
-      <hr class="divider" style="margin:8px 0 0 0;">
-    </div>
-    <p class="family">
+  <!-- ── SCROLLABLE CONTENT ── -->
+  <div id="invitation-content">
+
+<!-- SECTION 1: Hero -->
+<div class="snap-section" style="justify-content: space-between; padding-top: 80px; padding-bottom: 80px;">  <div class="hero-text">
+    <p class="quote">
+      "What God has joined together, let no one separate."
+      <br><span>Mark 10:9</span>
+    </p>
+    <hr class="divider">
+  </div>
+  <div class="hero-middle">
+    <p class="family" style="color:#ffffff;">
       With great joy and happiness,
       <br><br>
       <strong>Mr. Jihad & Mrs. Caroline Aoun</strong>
       <br><em>along with</em><br>
       <strong>Mr. Gergi & Mrs. Maha Habib</strong>
     </p>
-    <p class="invite-text">invite you to celebrate the union of their beloved son and daughter</p>
-    <h1>Georges & Yara</h1>
+    <p class="invite-text" style="color:rgba(255,255,255,0.85);">invite you to celebrate the union of their beloved son and daughter</p>
   </div>
-
-  <!-- ── VENUE SECTION ── -->
-  <div class="venue-section">
-    <h2 class="venue-title">The Venue</h2>
-    <p class="venue-subtitle">Where we celebrate</p>
-    <div class="venue-img-card">
-      <img src="bherdok black and white new.png" alt="Couvent St. Georges Bherdok">
-      <h3 class="venue-name">Couvent St. Georges</h3>
-      <div class="venue-card-divider"></div>
-      <p class="venue-date">Sunday, June 28, 2026 &nbsp;·&nbsp; 5:45 PM</p>
-      <p class="venue-address">Bherdok, Beit Chabeb, Lebanon</p>
-      <p class="venue-address" style="font-style:italic; font-weight:bold; font-size:0.9rem; opacity:0.7;">Ceremony followed by a welcome drink, dinner and celebration.</p>
-      <div style="width:100%; border-radius:12px; overflow:hidden; margin-top:10px;">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.3563778275015!2d35.6558042!3d33.931961!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f38cc8bb4518d%3A0xcccec2eb86a96eca!2sSt.%20Georges%20Convent!5e0!3m2!1sen!2sfr!4v1773596538223!5m2!1sen!2sfr"
-          width="100%" height="250"
-          style="border:0; display:block;"
-          allowfullscreen="" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── COUNTDOWN (full width, outside container) ── -->
-  <div class="countdown-section">
-    <h2 class="venue-title">Counting Down</h2>
-       <div id="countdown" style="display:flex; gap:clamp(8px,4vw,28px); justify-content:center; flex-wrap:nowrap; width:100%; padding:0 10px;">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-        <span id="cd-days" style="font-family:'Great Vibes',cursive; font-size:clamp(1.8rem,7vw,3rem); color:#e8dcc8; line-height:1; padding:0 8px;">0</span>
-        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Days</span>
-      </div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-        <span id="cd-hours" style="font-family:'Great Vibes',cursive; font-size:clamp(1.8rem,7vw,3rem); color:#e8dcc8; line-height:1; padding:0 8px;">0</span>
-        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Hours</span>
-      </div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-        <span id="cd-minutes" style="font-family:'Great Vibes',cursive; font-size:clamp(1.8rem,7vw,3rem); color:#e8dcc8; line-height:1; padding:0 8px;">0</span>
-        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Minutes</span>
-      </div>
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-        <span id="cd-seconds" style="font-family:'Great Vibes',cursive; font-size:clamp(1.8rem,7vw,3rem); color:#e8dcc8; line-height:1; padding:0 8px;">0</span>
-        <span style="font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; color:#c8a96a;">Seconds</span>
+  <h1 style="color:#e8c97a; margin-top: -40px;">Georges & Yara</h1>
 </div>
-    </div>
-  </div>
 
-
-  <!-- ── GIFT REGISTRY ── -->
-  <div class="container" style="padding-bottom: 0;">
-    <div style="display:flex; flex-direction:column; align-items:center; gap:12px; width:100%;">
-      <h2 class="venue-title">Gift Registry</h2>
-      <p class="invite-text" style="font-style:italic; opacity:0.85; line-height:1.8;">
-        Having you with us to celebrate, share laughter and create beautiful memories together is what matters most to us. For those who wish, a registry is available below.
-      </p>
-      <div style="background:white; border-radius:16px; padding:20px 30px; box-shadow:0 4px 20px rgba(0,0,0,0.07); width:100%; max-width:400px;">
-        <p style="margin:0; font-size:1.05rem; color:#74583e;">Wish Money Account</p>
-        <hr style="border:none; border-top:1px solid #c8a96a; margin:10px 0; opacity:0.4;">
-        <p style="margin:0; font-size:1.1rem; color:#74583e; letter-spacing:1px;"><strong>#123456</strong></p>
+<!-- SECTION 2: Venue -->
+    <div class="snap-section">
+      <div class="content-card">
+        <h2 class="venue-title">The Venue</h2>
+        <p class="venue-subtitle">Where we celebrate</p>
+        <img src="bherdoknobg.png" alt="Couvent St. Georges Bherdok" style="width:100%; max-width:340px; object-fit:contain;">
+        <h3 class="venue-name">Couvent St. Georges</h3>
+        <div class="venue-card-divider"></div>
+        <p class="venue-date">Sunday, June 28, 2026 &nbsp;·&nbsp; 5:45 PM</p>
+        <p class="venue-address">Bherdok, Beit Chabeb, Lebanon</p>
+        <p class="venue-address" style="font-style:italic; font-weight:bold; font-size:0.9rem; opacity:0.7;">Ceremony followed by a welcome drink, dinner and celebration.</p>
+        <a class="maps-btn" href="https://maps.app.goo.gl/mPbzVzFXPR2gNSicA" target="_blank" rel="noopener">
+          <div class="maps-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          </div>
+          <div class="maps-text">
+            <span class="maps-label">Find the venue</span>
+            <span class="maps-name">Couvent St. Georges, Bherdok</span>
+          </div>
+        </a>
       </div>
     </div>
-  </div>
-
-  <div style="display:flex; justify-content:center; padding: 40px 0;">
-    <hr class="divider">
-  </div>
-  
-
-  <!-- ── RSVP ── -->
-  <div class="container" style="padding-top: 0;">
-    <div class="rsvp-section">
-      <h2 class="venue-title">Honor us with your presence</h2>
-      <div id="message"></div>
-      <p>Number of persons invited: <strong><span id="num-guests"></span></strong></p>
-      <p id="attending-question">Are you attending?</p>
-      <div class="rsvp-buttons">
-        <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
-        <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
+    
+    <!-- SECTION 3: Countdown -->
+    <div class="snap-section">
+      <div class="content-card">
+        <h2 class="venue-title">Counting Down</h2>
+        <div class="countdown-inner">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+            <span id="cd-days" class="cd-num">0</span>
+            <span class="cd-label">Days</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+            <span id="cd-hours" class="cd-num">0</span>
+            <span class="cd-label">Hours</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+            <span id="cd-minutes" class="cd-num">0</span>
+            <span class="cd-label">Minutes</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+            <span id="cd-seconds" class="cd-num">0</span>
+            <span class="cd-label">Seconds</span>
+          </div>
+        </div>
       </div>
-      <p id="reply-deadline">Please reply before June 1, 2026</p>
-      <div id="thank-you-msg"></div>
-      <p id="changed-mind" style="font-size:1rem; font-style:italic; color:#74583e; display:none;">Need to make a change?</p>
-      <button id="edit-btn" onclick="editResponse()">Edit</button>
-      <p id="wishes-label">Share your love and wishes:</p>
-      <textarea id="love-message" placeholder="Write your message here..."></textarea>
-      <button id="submit" onclick="submitForm()" disabled>Submit</button>
     </div>
-  </div>
 
+    <!-- SECTION 4: Gift Registry -->
+    <div class="snap-section">
+      <div class="content-card">
+        <h2 class="venue-title">Gift Registry</h2>
+        <p class="invite-text" style="font-style:italic; opacity:0.85; line-height:1.8; text-align:center;">
+          Having you with us to celebrate, share laughter and create beautiful memories together is what matters most to us. For those who wish, a registry is available below.
+        </p>
+        <div class="gift-inner">
+          <p style="font-size:1.05rem;">Wish Money Account</p>
+          <hr>
+          <p style="font-size:1.1rem; letter-spacing:1px;"><strong>#123456</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: RSVP -->
+    <div class="snap-section">
+      <div class="content-card rsvp-section">
+        <h2 class="venue-title">Honor us with your presence</h2>
+        <div id="message"></div>
+        <p>Number of persons invited: <strong><span id="num-guests"></span></strong></p>
+        <p id="attending-question">Are you attending?</p>
+        <div class="rsvp-buttons">
+          <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
+          <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
+        </div>
+        <p id="reply-deadline">Please reply before June 1, 2026</p>
+        <div id="thank-you-msg"></div>
+        <p id="changed-mind" style="font-size:1rem; font-style:italic; color:#74583e; display:none;">Need to make a change?</p>
+        <button id="edit-btn" onclick="editResponse()">Edit</button>
+        <p id="wishes-label">Share your love and wishes:</p>
+        <textarea id="love-message" placeholder="Write your message here..."></textarea>
+        <button id="submit" onclick="submitForm()" disabled>Submit</button>
+      </div>
+    </div>
+
+  </div><!-- end invitation-content -->
 </div><!-- end invitation -->
 
 <script>
@@ -559,7 +662,7 @@ if (name && guests && validateToken(name, guests, token)) {
   document.getElementById("message").innerHTML = "<b>" + name + "</b>";
   document.getElementById("num-guests").innerText = guests;
 } else {
-  document.querySelector(".container").innerHTML = `
+  document.querySelector(".rsvp-section").innerHTML = `
     <h1 style="font-family:'Great Vibes',cursive;color:#74583e;font-size:clamp(50px,12vw,110px);white-space:nowrap;">Georges & Yara</h1>
     <p style="color:#74583e;font-family:'EB Garamond',serif;font-size:1.2rem;">This invitation link is not valid.</p>
   `;
@@ -614,7 +717,7 @@ function toggleMusic() {
 }
 
 // ── CAROUSEL ──
-const slides = document.querySelectorAll('.carousel-slide');
+const slides = document.querySelectorAll('#carousel-bg-fixed .carousel-slide');
 let current = 0;
 setInterval(() => {
   slides[current].classList.remove('active');
@@ -628,9 +731,9 @@ function enterInvitation() {
   landing.classList.add('leaving');
   setTimeout(() => {
     landing.style.display = 'none';
+    document.getElementById('carousel-bg-fixed').style.display = 'block';
     document.getElementById('invitation').style.display = 'block';
     window.scrollTo(0, 0);
-    // Start observing after the invitation page is visible
     initScrollAnimations();
   }, 700);
 }
@@ -642,7 +745,10 @@ function updateCountdown() {
   const now = new Date();
   const diff = weddingDate - now;
   if (diff <= 0) {
-    document.getElementById('countdown').innerHTML = '<p style="font-family:\'Great Vibes\',cursive;font-size:2rem;color:#e8dcc8;">Today is the day! 🎉</p>';
+    document.getElementById('cd-days').textContent = '0';
+    document.getElementById('cd-hours').textContent = '0';
+    document.getElementById('cd-minutes').textContent = '0';
+    document.getElementById('cd-seconds').textContent = '🎉';
     return;
   }
   document.getElementById('cd-days').textContent    = Math.floor(diff / (1000*60*60*24));
@@ -727,9 +833,7 @@ function editResponse() {
 
 // ── SCROLL ANIMATIONS ──
 function initScrollAnimations() {
-  const observerTargets = document.querySelectorAll(
-    '.venue-title, .venue-subtitle, .venue-img-card, .countdown-section, .rsvp-section, .container > div'
-  );
+  const observerTargets = document.querySelectorAll('.content-card, .hero-text');
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
