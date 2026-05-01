@@ -115,30 +115,20 @@ html, body {
 
 /* ── INVITATION PAGE ── */
 #invitation {
-  position: fixed;
-  inset: 0;
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  z-index: 1;
+  position: relative;
+  min-height: 100vh;
 }
 
-/* ── STICKY CAROUSEL BACKGROUND ── */
+/* ── FIXED CAROUSEL BACKGROUND ── */
 #carousel-bg-fixed {
-  position: sticky;
-  top: 0;
-  height: 0;
-  overflow: visible;
+  position: fixed;
+  inset: 0;
   z-index: 0;
 }
 
 #carousel-bg-fixed .carousel-slide {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background-size: cover;
   background-position: center;
   opacity: 0;
@@ -152,10 +142,7 @@ html, body {
 #carousel-bg-fixed::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   background: rgba(0, 0, 0, 0.38);
   z-index: 1;
 }
@@ -165,7 +152,6 @@ html, body {
   position: relative;
   z-index: 2;
   pointer-events: none;
-  margin-top: -100vh;
 }
 
 #invitation-content > * {
@@ -174,9 +160,7 @@ html, body {
 
 /* ── SNAP SECTIONS ── */
 .snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
