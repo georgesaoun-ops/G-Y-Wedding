@@ -198,33 +198,21 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 8px;
   text-align: center;
-  justify-content: flex-start;
-  padding-top: 40px;
 }
-.hero-text .quote {
-  margin-bottom: -10px;
-  margin-top: -20px;
+.hero-middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
 }
-.hero-text hr.divider {
-  border-top-color: 
-#c8a96a;
-  margin: 0 0 2px;
-}
-.hero-text .quote,
-.hero-text .family,
-.hero-text .invite-text,
-.hero-text h1 {
-  color: 
-#ffffff;
-}
+.hero-middle .family { font-size: 1.5rem; line-height: 2; color: #ffffff; }
+.hero-middle .invite-text { font-size: 1.3rem; line-height: 1.6; color: rgba(255,255,255,0.85); }
+.hero-text .quote { margin-bottom: 0; color: #ffffff; }
+.hero-text hr.divider { border-top-color: #c8a96a; margin: 0; }
 .hero-text .quote span { color: rgba(255,255,255,0.7); }
-.hero-text .family { color: rgba(255,255,255,0.92); }
-.hero-text .invite-text { color: rgba(255,255,255,0.85); }
-.hero-text h1 { color: 
-#e8c97a; }
-
   
 /* ── COUNTDOWN inside card ── */
 .countdown-inner {
@@ -541,24 +529,26 @@ button#edit-btn:hover { background: #fff3f0; }
   <div id="invitation-content">
 
     <!-- SECTION 1: Hero -->
-<div class="snap-section" style="justify-content: flex-start; padding-top: 80px;">
+<div class="snap-section" style="justify-content: space-between; padding-top: 60px; padding-bottom: 40px;">
   <div class="hero-text">
-        <p class="quote">
-          "What God has joined together, let no one separate."
-          <br><span>Mark 10:9</span>
-        </p>
-        <hr class="divider">
-        <p class="family">
-          With great joy and happiness,
-          <br><br>
-          <strong>Mr. Jihad & Mrs. Caroline Aoun</strong>
-          <br><em>along with</em><br>
-          <strong>Mr. Gergi & Mrs. Maha Habib</strong>
-        </p>
-        <p class="invite-text">invite you to celebrate the union of their beloved son and daughter</p>
-        <h1>Georges & Yara</h1>
-      </div>
-    </div>
+    <p class="quote">
+      "What God has joined together, let no one separate."
+      <br><span>Mark 10:9</span>
+    </p>
+    <hr class="divider">
+  </div>
+  <div class="hero-middle">
+    <p class="family" style="color:#ffffff;">
+      With great joy and happiness,
+      <br><br>
+      <strong>Mr. Jihad & Mrs. Caroline Aoun</strong>
+      <br><em>along with</em><br>
+      <strong>Mr. Gergi & Mrs. Maha Habib</strong>
+    </p>
+    <p class="invite-text" style="color:rgba(255,255,255,0.85);">invite you to celebrate the union of their beloved son and daughter</p>
+  </div>
+  <h1 style="color:#e8c97a;">Georges & Yara</h1>
+</div>
 
 <!-- SECTION 2: Venue -->
     <div class="snap-section">
