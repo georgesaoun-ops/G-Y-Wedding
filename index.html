@@ -117,6 +117,7 @@ html, body {
 #invitation {
   position: relative;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 /* ── FIXED CAROUSEL BACKGROUND ── */
@@ -152,6 +153,9 @@ html, body {
   position: relative;
   z-index: 2;
   pointer-events: none;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
 }
 
 #invitation-content > * {
@@ -166,6 +170,7 @@ html, body {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
+  scroll-snap-align: start;
 }
 
 /* ── TRANSPARENT CONTENT CARDS ── */
