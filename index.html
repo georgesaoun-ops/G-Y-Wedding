@@ -481,6 +481,8 @@ button#edit-btn:hover { background: #fff3f0; }
 </head>
 <body>
 
+<button id="lang-btn" onclick="cycleLang()" style="position:fixed; top:20px; left:20px; z-index:999; font-family:'EB Garamond',serif; font-size:0.85rem; padding:6px 16px; border-radius:30px; border:1px solid rgba(200,169,106,0.6); background:rgba(255,247,238,0.92); color:#74583e; cursor:pointer; display:flex; align-items:center; gap:7px; letter-spacing:1px;"><span id="lang-label">FR</span><span style="width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-top:5px solid #c8a96a; display:inline-block;"></span></button>
+
 <!-- ── BACKGROUND MUSIC ── -->
 <audio id="bg-music" loop>
   <source src="song.mp3" type="audio/mpeg">
@@ -528,22 +530,26 @@ button#edit-btn:hover { background: #fff3f0; }
   <!-- ── SCROLLABLE CONTENT ── -->
   <div id="invitation-content">
 
-<!-- SECTION 1: Hero -->
-<div class="snap-section" style="justify-content: space-between; padding: 80px 20px;">
-  <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-    <p class="quote" style="color:#ffffff; opacity:0.9;">
+    <!-- SECTION 1: Hero -->
+<div class="snap-section" style="justify-content: space-between; padding-top: 60px; padding-bottom: 40px;">
+  <div class="hero-text">
+    <p class="quote">
       "What God has joined together, let no one separate."
-      <br><span style="color:rgba(255,255,255,0.7);">Mark 10:9</span>
+      <br><span>Mark 10:9</span>
     </p>
-    <hr class="divider" style="margin:8px 0 0 0; border-top-color:#c8a96a;">
+    <hr class="divider">
   </div>
-  <p class="family" style="color:#ffffff;">
-    <strong>Mr. Jihad & Mrs. Caroline Aoun</strong>
-    <br><em>along with</em><br>
-    <strong>Mr. Gergi & Mrs. Maha Habib</strong>
-  </p>
-  <p class="invite-text" style="color:rgba(255,255,255,0.85);">invite you to celebrate the union of their beloved son and daughter</p>
-  <h1 style="color:#e8c97a; margin-bottom: 40px; padding: 0 10px 10px 15px;">Georges & Yara</h1>
+  <div class="hero-middle">
+    <p class="family" style="color:#ffffff;">
+      With great joy and happiness,
+      <br><br>
+      <strong>Mr. Jihad & Mrs. Caroline Aoun</strong>
+      <br><em>along with</em><br>
+      <strong>Mr. Gergi & Mrs. Maha Habib</strong>
+    </p>
+    <p class="invite-text" style="color:rgba(255,255,255,0.85);">invite you to celebrate the union of their beloved son and daughter</p>
+  </div>
+  <h1 style="color:#e8c97a;">Georges & Yara</h1>
 </div>
 
 <!-- SECTION 2: Venue -->
@@ -551,7 +557,7 @@ button#edit-btn:hover { background: #fff3f0; }
       <div class="content-card">
         <h2 class="venue-title">The Venue</h2>
         <p class="venue-subtitle">Where we celebrate</p>
-        <img src="bherdok black and white new.png" alt="Couvent St. Georges Bherdok" style="width:100%; max-width:340px; object-fit:contain;">
+        <img src="bherdoknobg.png" alt="Couvent St. Georges Bherdok" style="width:100%; max-width:340px; object-fit:contain;">
         <h3 class="venue-name">Couvent St. Georges</h3>
         <div class="venue-card-divider"></div>
         <p class="venue-date">Sunday, June 28, 2026 &nbsp;·&nbsp; 5:45 PM</p>
@@ -598,7 +604,7 @@ button#edit-btn:hover { background: #fff3f0; }
     </div>
 
     <!-- SECTION 4: Gift Registry -->
-    <div class="snap-section">
+    <div class="snap-section" id="section-gift">
       <div class="content-card">
         <h2 class="venue-title">Gift Registry</h2>
         <p class="invite-text" style="font-style:italic; opacity:0.85; line-height:1.8; text-align:center;">
@@ -842,6 +848,84 @@ function initScrollAnimations() {
   }, { threshold: 0.15 });
 
   observerTargets.forEach(el => observer.observe(el));
+}
+
+// ── TRANSLATIONS ──
+const translations = {
+  en: {
+    quote: '"What God has joined together, let no one separate."',
+    quoteRef: 'Mark 10:9',
+    family: '<strong>Mr. Jihad & Mrs. Caroline Aoun</strong><br><em>along with</em><br><strong>Mr. Gergi & Mrs. Maha Habib</strong>',
+    invite: 'invite you to celebrate the union of their beloved son and daughter',
+    venueTitle: 'The Venue', venueSub: 'Where we celebrate',
+    venueDate: 'Sunday, June 28, 2026 · 5:45 PM',
+    venueNote: 'Ceremony followed by a welcome drink, dinner and celebration.',
+    countdownTitle: 'Counting Down', giftTitle: 'Gift Registry',
+    giftText: 'Having you with us to celebrate, share laughter and create beautiful memories together is what matters most to us. For those who wish, a registry is available below.',
+    rsvpTitle: 'Honor us with your presence', attending: 'Are you attending?',
+    deadline: 'Please reply before June 1, 2026', wishes: 'Share your love and wishes:',
+    yes: 'Yes', no: 'No', submit: 'Submit', mapsLabel: 'Find the venue',
+  },
+  fr: {
+    quote: '« Ce que Dieu a uni, que l\'homme ne le sépare pas. »',
+    quoteRef: 'Marc 10:9',
+    family: '<strong>M. Jihad & Mme Caroline Aoun</strong><br><em>ainsi que</em><br><strong>M. Gergi & Mme Maha Habib</strong>',
+    invite: 'ont l\'honneur de vous inviter au mariage de leur fils et fille bien-aimés',
+    venueTitle: 'Le Lieu', venueSub: 'Où nous célébrons',
+    venueDate: 'Dimanche 28 juin 2026 · 17h45',
+    venueNote: 'Cérémonie suivie d\'un verre de bienvenue, dîner et célébration.',
+    countdownTitle: 'Compte à rebours', giftTitle: 'Liste de cadeaux',
+    giftText: 'Votre présence parmi nous pour célébrer, partager des rires et créer de beaux souvenirs est ce qui compte le plus. Pour ceux qui le souhaitent, une liste est disponible ci-dessous.',
+    rsvpTitle: 'Faites-nous l\'honneur de votre présence', attending: 'Serez-vous présent(e) ?',
+    deadline: 'Merci de répondre avant le 1er juin 2026', wishes: 'Partagez vos vœux et votre amour :',
+    yes: 'Oui', no: 'Non', submit: 'Envoyer', mapsLabel: 'Trouver le lieu',
+  },
+  ar: {
+    quote: '«مَا جَمَعَهُ اللهُ لَا يُفَرِّقُهُ إِنْسَان»',
+    quoteRef: 'مرقس ١٠:٩',
+    family: '<strong>السيد جهاد والسيدة كارولين عون</strong><br><em>بالاشتراك مع</em><br><strong>السيد جرجي والسيدة مها حبيب</strong>',
+    invite: 'يطلبون شرف حضوركم حفل زفاف نجلهم وابنتهم الأعزاء',
+    venueTitle: 'المكان', venueSub: 'حيث نحتفل',
+    venueDate: 'الأحد ٢٨ يونيو ٢٠٢٦ · ٥:٤٥ مساءً',
+    venueNote: 'مراسم الزفاف تليها مشروبات ترحيب وعشاء واحتفال.',
+    countdownTitle: 'العد التنازلي', giftTitle: 'قائمة الهدايا',
+    giftText: 'وجودكم معنا للاحتفال ومشاركة الفرح وخلق ذكريات جميلة هو ما يهمنا أكثر من أي شيء. لمن يرغب، قائمة هدايا متاحة أدناه.',
+    rsvpTitle: 'شرّفونا بحضوركم', attending: 'هل ستحضرون؟',
+    deadline: 'يرجى الرد قبل ١ يونيو ٢٠٢٦', wishes: 'شاركونا تهانيكم وأمنياتكم:',
+    yes: 'نعم', no: 'لا', submit: 'إرسال', mapsLabel: 'ابحث عن المكان',
+  }
+};
+
+const langNext = { en: 'fr', fr: 'ar', ar: 'en' };
+let currentLang = 'en';
+
+function cycleLang() {
+  currentLang = langNext[currentLang];
+  setLang(currentLang);
+  document.getElementById('lang-label').textContent = langNext[currentLang].toUpperCase();
+}
+
+function setLang(lang) {
+  const t = translations[lang];
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelector('.quote').innerHTML = t.quote + '<br><span style="color:rgba(255,255,255,0.7);">' + t.quoteRef + '</span>';
+  document.querySelector('.family').innerHTML = t.family;
+  document.querySelector('.invite-text').textContent = t.invite;
+  document.querySelectorAll('.venue-title')[0].textContent = t.venueTitle;
+  document.querySelector('.venue-subtitle').textContent = t.venueSub;
+  document.querySelector('.venue-date').textContent = t.venueDate;
+  document.querySelectorAll('.venue-address')[1].textContent = t.venueNote;
+  document.querySelectorAll('.venue-title')[1].textContent = t.countdownTitle;
+  document.querySelectorAll('.venue-title')[2].textContent = t.giftTitle;
+  document.querySelector('#section-gift .invite-text').textContent = t.giftText;
+  document.querySelectorAll('.venue-title')[3].textContent = t.rsvpTitle;
+  document.getElementById('attending-question').textContent = t.attending;
+  document.getElementById('reply-deadline').textContent = t.deadline;
+  document.getElementById('wishes-label').textContent = t.wishes;
+  document.getElementById('btn-yes').textContent = t.yes;
+  document.getElementById('btn-no').textContent = t.no;
+  document.getElementById('submit').textContent = t.submit;
+  document.querySelector('.maps-label').textContent = t.mapsLabel;
 }
 </script>
 </body>
