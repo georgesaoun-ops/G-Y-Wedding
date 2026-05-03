@@ -241,31 +241,7 @@ button#edit-btn:hover { background:#fff3f0; }
       </div>
     </div>
 
-    <!-- SECTION 3: Countdown -->
-    <div class="snap-section">
-      <div class="content-card">
-        <h2 class="venue-title">Counting Down</h2>
-        <div class="countdown-inner">
-          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-            <span id="cd-days" class="cd-num">0</span>
-            <span class="cd-label">Days</span>
-          </div>
-          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-            <span id="cd-hours" class="cd-num">0</span>
-            <span class="cd-label">Hours</span>
-          </div>
-          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-            <span id="cd-minutes" class="cd-num">0</span>
-            <span class="cd-label">Minutes</span>
-          </div>
-          <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-            <span id="cd-seconds" class="cd-num">0</span>
-            <span class="cd-label">Seconds</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  
     <!-- SECTION 4: Gift Registry -->
     <div class="snap-section" id="section-gift">
       <div class="content-card">
@@ -284,7 +260,29 @@ button#edit-btn:hover { background:#fff3f0; }
     <!-- SECTION 5: RSVP -->
     <div class="snap-section">
       <div class="content-card rsvp-section">
-        <h2 class="venue-title">Honor us with your presence</h2>
+   <div id="rsvp-countdown" style="display:none; flex-direction:column; align-items:center; gap:10px; width:100%;">
+  <p style="font-size:0.75rem; letter-spacing:2px; text-transform:uppercase; color:#c8a96a; margin:0;">Counting Down</p>
+  <div style="display:flex; gap:clamp(8px,4vw,28px); justify-content:center; width:100%;">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+      <span id="cd-days" class="cd-num">0</span>
+      <span class="cd-label">Days</span>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+      <span id="cd-hours" class="cd-num">0</span>
+      <span class="cd-label">Hours</span>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+      <span id="cd-minutes" class="cd-num">0</span>
+      <span class="cd-label">Minutes</span>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+      <span id="cd-seconds" class="cd-num">0</span>
+      <span class="cd-label">Seconds</span>
+    </div>
+  </div>
+  <hr style="width:60%; border:none; border-top:1px solid rgba(200,169,106,0.3); margin:0;">
+</div>
+<h2 class="venue-title">Honor us with your presence</h2>
         <div id="message"></div>
        <p id="attending-count" style="display:none;">Number of persons attending: <strong><span id="num-attending"></span></strong></p>
         <p id="attending-question">Are you attending?</p>
@@ -455,9 +453,10 @@ function submitForm() {
     document.getElementById("reply-deadline").style.display="none";
     document.getElementById("wishes-label").style.display="none";
     submitBtn.style.display="none";
-    if (attending) {
+if (attending) {
   document.getElementById("num-attending").textContent = finalGuests;
   document.getElementById("attending-count").style.display = "block";
+  document.getElementById("rsvp-countdown").style.display = "flex";
 }
     const thankYouText = attending ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!" : "Thank you for letting us know.";
     const msgEl = document.getElementById("thank-you-msg");
@@ -475,6 +474,7 @@ function editResponse() {
   document.getElementById("reply-deadline").style.display="block";
   document.getElementById("wishes-label").style.display="block";
   document.getElementById("guest-count-section").style.display="none";
+  document.getElementById("rsvp-countdown").style.display="none";
   document.getElementById("submit").style.display="inline-block"; document.getElementById("submit").disabled=true; document.getElementById("submit").textContent="Submit";
   document.getElementById("edit-btn").style.display="none"; document.getElementById("changed-mind").style.display="none";
   const msgEl = document.getElementById("thank-you-msg"); msgEl.classList.remove("visible"); msgEl.textContent="";
