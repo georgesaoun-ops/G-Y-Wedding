@@ -405,6 +405,16 @@ let attending = null;
 let confirmedGuests = 0;
 
 function selectAttendance(choice) {
+    if (attending === choice) {
+    attending = null;
+    document.getElementById("btn-yes").classList.remove("selected");
+    document.getElementById("btn-no").classList.remove("selected");
+    document.getElementById("guest-count-section").style.display = "none";
+    document.getElementById("submit").disabled = true;
+    confirmedGuests = 0;
+    document.getElementById("gc-num").textContent = " ";
+    return;
+  }
   attending = choice;
   document.getElementById("btn-yes").classList.remove("selected");
   document.getElementById("btn-no").classList.remove("selected");
