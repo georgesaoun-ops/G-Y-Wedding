@@ -105,21 +105,15 @@ button#edit-btn:hover { background:#fff3f0; }
 /* ── GUEST COUNT ── */
 #guest-count-section { display:none; width:100%; flex-direction:column; align-items:center; gap:10px; }
 #guest-count-section .gc-divider { width:60%; border:none; border-top:1px solid rgba(200,169,106,0.3); }
-#guest-count-section .gc-sentence { color:rgba(255,255,255,0.85); font-size:1rem; font-style:italic; margin:0; }
-#guest-count-section select {
-  background:transparent;
-  border:none;
-  border-bottom:1px solid #c8a96a;
-  color:#e8c97a;
-  font-family:'EB Garamond',serif;
-  font-size:1rem;
-  font-style:italic;
-  cursor:pointer;
-  padding:0 6px;
-  appearance:none;
-  -webkit-appearance:none;
-  text-align:center;
-}
+#guest-count-section .gc-sentence { color:#ffffff; font-size:1rem; font-style:normal; letter-spacing:1px; margin:0; display:flex; align-items:center; gap:10px; white-space:nowrap; justify-content:center; }
+.gc-pill { background:rgba(200,169,106,0.2); border:1px solid #c8a96a; border-radius:30px; padding:5px 20px; color:#e8c97a; font-family:'EB Garamond',serif; font-size:1rem; cursor:pointer; transition:all 0.2s; position:relative; flex-shrink:0; }
+.gc-pill:hover { background:rgba(200,169,106,0.35); }
+.gc-dropdown { display:none; position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%); background:rgba(30,15,5,0.95); border:1px solid rgba(200,169,106,0.5); border-radius:16px; overflow:hidden; min-width:80px; z-index:10; }
+.gc-dropdown.open { display:block; }
+.gc-drop-item { padding:10px 24px; color:rgba(255,255,255,0.75); font-family:'EB Garamond',serif; font-size:1rem; cursor:pointer; transition:background 0.15s; text-align:center; }
+.gc-drop-item:hover { background:rgba(200,169,106,0.2); color:#e8c97a; }
+.gc-drop-item.active { color:#e8c97a; background:rgba(200,169,106,0.15); }
+.gc-drop-divider { height:1px; background:rgba(200,169,106,0.2); margin:0 12px; }
 
 @media (max-width:480px) {
   h1 { font-size:clamp(50px,15vw,80px); white-space:nowrap; }
@@ -302,14 +296,16 @@ button#edit-btn:hover { background:#fff3f0; }
 
         <!-- Guest count — only shown for 2+ guests when Yes is selected -->
         <div id="guest-count-section">
-          <hr class="gc-divider">
-          <p class="gc-sentence">
-            We will be
-            <select id="guest-select" onchange="confirmedGuests=parseInt(this.value); document.getElementById('submit').disabled=false;">
-            </select>
-            attending
-          </p>
-        </div>
+  <hr class="gc-divider">
+  <div class="gc-sentence">
+    <span id="gc-before">We will be</span>
+    <span class="gc-pill" id="gc-pill" onclick="toggleGcDrop()">
+      <span id="gc-num">1</span>
+      <div class="gc-dropdown" id="gc-drop"></div>
+    </span>
+    <span id="gc-after">attending</span>
+  </div>
+</div>
 
         <p id="reply-deadline">Please reply before June 1, 2026</p>
         <div id="thank-you-msg"></div>
@@ -419,18 +415,10 @@ function selectAttendance(choice) {
 
   if (choice) {
     document.getElementById("btn-yes").classList.add("selected");
-    if (total >= 2) {
-      // Build the dropdown options
-      const select = document.getElementById("guest-select");
-      select.innerHTML = "";
-      for (let i = 1; i <= total; i++) {
-        const opt = document.createElement("option");
-        opt.value = i;
-        opt.textContent = i + (i === 1 ? " person" : " persons");
-        select.appendChild(opt);
-      }
+if (total >= 2) {
+      buildGcDropdown(total);
       confirmedGuests = 1;
-      select.value = 1;
+      document.getElementById("gc-num").textContent = 1;
       document.getElementById("guest-count-section").style.display = "flex";
       document.getElementById("submit").disabled = false;
     } else {
@@ -490,6 +478,28 @@ function editResponse() {
   document.getElementById("btn-yes").classList.remove("selected"); document.getElementById("btn-no").classList.remove("selected"); document.getElementById("love-message").value="";
 }
 
+function buildGcDropdown(total) {
+  const drop = document.getElementById("gc-drop");
+  drop.innerHTML = "";
+  for (let i = 1; i <= total; i++) {
+    if (i > 1) { const d = document.createElement("div"); d.className="gc-drop-divider"; drop.appendChild(d); }
+    const item = document.createElement("div");
+    item.className = "gc-drop-item" + (i === 1 ? " active" : "");
+    item.textContent = i;
+    item.onclick = (e) => { e.stopPropagation(); confirmedGuests = i; document.getElementById("gc-num").textContent = i; document.querySelectorAll(".gc-drop-item").forEach(d=>d.classList.remove("active")); item.classList.add("active"); document.getElementById("gc-drop").classList.remove("open"); };
+    drop.appendChild(item);
+  }
+}
+
+function toggleGcDrop() {
+  document.getElementById("gc-drop").classList.toggle("open");
+}
+
+document.addEventListener("click", function(e) {
+  const pill = document.getElementById("gc-pill");
+  if (pill && !pill.contains(e.target)) document.getElementById("gc-drop").classList.remove("open");
+});
+  
 function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold:0.15 });
   document.querySelectorAll('.content-card, .hero-text').forEach(el => observer.observe(el));
