@@ -102,6 +102,25 @@ button#edit-btn { font-size:0.95rem; padding:8px 25px; border-radius:12px; borde
 button#edit-btn:hover { background:#fff3f0; }
 #message { font-size:1.2rem; color:#74583e; }
 
+/* ── GUEST COUNT ── */
+#guest-count-section { display:none; width:100%; flex-direction:column; align-items:center; gap:10px; }
+#guest-count-section .gc-divider { width:60%; border:none; border-top:1px solid rgba(200,169,106,0.3); }
+#guest-count-section .gc-sentence { color:rgba(255,255,255,0.85); font-size:1rem; font-style:italic; margin:0; }
+#guest-count-section select {
+  background:transparent;
+  border:none;
+  border-bottom:1px solid #c8a96a;
+  color:#e8c97a;
+  font-family:'EB Garamond',serif;
+  font-size:1rem;
+  font-style:italic;
+  cursor:pointer;
+  padding:0 6px;
+  appearance:none;
+  -webkit-appearance:none;
+  text-align:center;
+}
+
 @media (max-width:480px) {
   h1 { font-size:clamp(50px,15vw,80px); white-space:nowrap; }
   .quote { font-size:1rem; }
@@ -168,7 +187,7 @@ button#edit-btn:hover { background:#fff3f0; }
     </svg>
   </div>
   <p class="landing-tagline">We can't imagine this day without you...</p>
- <button class="landing-enter" onclick="enterInvitation()">Enter</button>
+  <button class="landing-enter" onclick="enterInvitation()">Enter</button>
 </div>
 
 <!-- ── FIXED CAROUSEL BACKGROUND ── -->
@@ -280,6 +299,18 @@ button#edit-btn:hover { background:#fff3f0; }
           <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
           <button class="decline" id="btn-no" onclick="selectAttendance(false)">No</button>
         </div>
+
+        <!-- Guest count — only shown for 2+ guests when Yes is selected -->
+        <div id="guest-count-section">
+          <hr class="gc-divider">
+          <p class="gc-sentence">
+            We will be
+            <select id="guest-select" onchange="confirmedGuests=parseInt(this.value); document.getElementById('submit').disabled=false;">
+            </select>
+            attending
+          </p>
+        </div>
+
         <p id="reply-deadline">Please reply before June 1, 2026</p>
         <div id="thank-you-msg"></div>
         <p id="changed-mind" style="font-size:1rem; font-style:italic; color:#74583e; display:none;">Need to make a change?</p>
@@ -319,6 +350,7 @@ if (name && guests && validateToken(name, guests, token)) {
 
 if (name && localStorage.getItem("rsvp_submitted_" + name)) {
   document.querySelector(".rsvp-buttons").style.display = "none";
+  document.getElementById("guest-count-section").style.display = "none";
   document.getElementById("love-message").style.display = "none";
   document.getElementById("attending-question").style.display = "none";
   document.getElementById("reply-deadline").style.display = "none";
@@ -377,22 +409,64 @@ updateCountdown();
 setInterval(updateCountdown, 1000);
 
 let attending = null;
+let confirmedGuests = 0;
+
 function selectAttendance(choice) {
   attending = choice;
   document.getElementById("btn-yes").classList.remove("selected");
   document.getElementById("btn-no").classList.remove("selected");
-  if (choice) document.getElementById("btn-yes").classList.add("selected");
-  else document.getElementById("btn-no").classList.add("selected");
-  document.getElementById("submit").disabled = false;
+  const total = parseInt(params.get("guests")) || 1;
+
+  if (choice) {
+    document.getElementById("btn-yes").classList.add("selected");
+    if (total >= 2) {
+      // Build the dropdown options
+      const select = document.getElementById("guest-select");
+      select.innerHTML = "";
+      for (let i = 1; i <= total; i++) {
+        const opt = document.createElement("option");
+        opt.value = i;
+        opt.textContent = i + (i === 1 ? " person" : " persons");
+        select.appendChild(opt);
+      }
+      confirmedGuests = 1;
+      select.value = 1;
+      document.getElementById("guest-count-section").style.display = "flex";
+      document.getElementById("submit").disabled = false;
+    } else {
+      confirmedGuests = 1;
+      document.getElementById("guest-count-section").style.display = "none";
+      document.getElementById("submit").disabled = false;
+    }
+  } else {
+    document.getElementById("btn-no").classList.add("selected");
+    document.getElementById("guest-count-section").style.display = "none";
+    confirmedGuests = 0;
+    document.getElementById("submit").disabled = false;
+  }
 }
 
 function submitForm() {
   if (attending === null) return;
   const submitBtn = document.getElementById("submit");
   submitBtn.textContent = "Sending..."; submitBtn.disabled = true;
-  fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({ name:params.get("name")||"Unknown", guests:params.get("guests")||"0", attending:attending?"Yes":"No", message:document.getElementById("love-message").value }) })
+  const total = parseInt(params.get("guests")) || 1;
+  const finalGuests = attending ? (total >= 2 ? confirmedGuests : 1) : 0;
+  fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({
+    name: params.get("name") || "Unknown",
+    guests: params.get("guests") || "0",
+    attending: attending ? "Yes" : "No",
+    confirmedGuests: finalGuests,
+    message: document.getElementById("love-message").value
+  })})
   .then(() => {
-    document.querySelector(".rsvp-buttons").style.display="none"; document.getElementById("love-message").style.display="none"; document.getElementById("attending-question").style.display="none"; document.getElementById("reply-deadline").style.display="none"; document.getElementById("wishes-label").style.display="none"; submitBtn.style.display="none";
+    document.querySelector(".rsvp-buttons").style.display="none";
+    document.getElementById("guest-count-section").style.display="none";
+    document.getElementById("love-message").style.display="none";
+    document.getElementById("attending-question").style.display="none";
+    document.getElementById("reply-deadline").style.display="none";
+    document.getElementById("wishes-label").style.display="none";
+    submitBtn.style.display="none";
     const thankYouText = attending ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!" : "Thank you for letting us know.";
     const msgEl = document.getElementById("thank-you-msg");
     msgEl.textContent = thankYouText; msgEl.classList.remove("visible"); setTimeout(()=>msgEl.classList.add("visible"),10);
@@ -403,11 +477,17 @@ function submitForm() {
 
 function editResponse() {
   localStorage.removeItem("rsvp_submitted_"+name); localStorage.removeItem("rsvp_message_"+name);
-  document.querySelector(".rsvp-buttons").style.display="flex"; document.getElementById("love-message").style.display="block"; document.getElementById("attending-question").style.display="block"; document.getElementById("reply-deadline").style.display="block"; document.getElementById("wishes-label").style.display="block";
+  document.querySelector(".rsvp-buttons").style.display="flex";
+  document.getElementById("love-message").style.display="block";
+  document.getElementById("attending-question").style.display="block";
+  document.getElementById("reply-deadline").style.display="block";
+  document.getElementById("wishes-label").style.display="block";
+  document.getElementById("guest-count-section").style.display="none";
   document.getElementById("submit").style.display="inline-block"; document.getElementById("submit").disabled=true; document.getElementById("submit").textContent="Submit";
   document.getElementById("edit-btn").style.display="none"; document.getElementById("changed-mind").style.display="none";
   const msgEl = document.getElementById("thank-you-msg"); msgEl.classList.remove("visible"); msgEl.textContent="";
-  attending=null; document.getElementById("btn-yes").classList.remove("selected"); document.getElementById("btn-no").classList.remove("selected"); document.getElementById("love-message").value="";
+  attending=null; confirmedGuests=0;
+  document.getElementById("btn-yes").classList.remove("selected"); document.getElementById("btn-no").classList.remove("selected"); document.getElementById("love-message").value="";
 }
 
 function initScrollAnimations() {
@@ -449,6 +529,7 @@ const translations = {
     rsvpTitle:'Honor us with your presence', attending:'Are you attending?',
     deadline:'Please reply before June 1, 2026', wishes:'Share your love and wishes:',
     yes:'Yes', no:'No', submit:'Submit', mapsLabel:'Find the venue',
+    weWillBe:'We will be', attending2:'attending',
   },
   fr: {
     quote: '« Ce que Dieu a uni, que l\'homme ne le sépare pas. »', quoteRef: 'Marc 10:9',
@@ -461,6 +542,7 @@ const translations = {
     rsvpTitle:'Faites-nous l\'honneur de votre présence', attending:'Serez-vous présent(e) ?',
     deadline:'Merci de répondre avant le 1er juin 2026', wishes:'Partagez vos vœux et votre amour :',
     yes:'Oui', no:'Non', submit:'Envoyer', mapsLabel:'Trouver le lieu',
+    weWillBe:'Nous serons', attending2:'présents',
   },
   ar: {
     quote: '«مَا جَمَعَهُ اللهُ لَا يُفَرِّقُهُ إِنْسَان»', quoteRef: 'مرقس ١٠:٩',
@@ -473,6 +555,7 @@ const translations = {
     rsvpTitle:'شرّفونا بحضوركم', attending:'هل ستحضرون؟',
     deadline:'يرجى الرد قبل ١ يونيو ٢٠٢٦', wishes:'شاركونا تهانيكم وأمنياتكم:',
     yes:'نعم', no:'لا', submit:'إرسال', mapsLabel:'ابحث عن المكان',
+    weWillBe:'سنحضر', attending2:'أشخاص',
   }
 };
 
@@ -497,6 +580,12 @@ function setLang(lang) {
   document.getElementById('btn-no').textContent = t.no;
   document.getElementById('submit').textContent = t.submit;
   document.querySelector('.maps-label').textContent = t.mapsLabel;
+  // Update guest sentence text nodes
+  const gc = document.querySelector('.gc-sentence');
+  if (gc) {
+    gc.childNodes[0].textContent = t.weWillBe + ' ';
+    gc.childNodes[2].textContent = ' ' + t.attending2;
+  }
 }
 </script>
 </body>
