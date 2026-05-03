@@ -417,10 +417,10 @@ function selectAttendance(choice) {
     document.getElementById("btn-yes").classList.add("selected");
 if (total >= 2) {
       buildGcDropdown(total);
-      confirmedGuests = 1;
-      document.getElementById("gc-num").textContent = 1;
+      confirmedGuests = 0;
+      document.getElementById("gc-num").textContent = "?";
       document.getElementById("guest-count-section").style.display = "flex";
-      document.getElementById("submit").disabled = false;
+      document.getElementById("submit").disabled = true;
     } else {
       confirmedGuests = 1;
       document.getElementById("guest-count-section").style.display = "none";
@@ -486,8 +486,7 @@ function buildGcDropdown(total) {
     const item = document.createElement("div");
     item.className = "gc-drop-item" + (i === 1 ? " active" : "");
     item.textContent = i;
-    item.onclick = (e) => { e.stopPropagation(); confirmedGuests = i; document.getElementById("gc-num").textContent = i; document.querySelectorAll(".gc-drop-item").forEach(d=>d.classList.remove("active")); item.classList.add("active"); document.getElementById("gc-drop").classList.remove("open"); };
-    drop.appendChild(item);
+    item.onclick = (e) => { e.stopPropagation(); confirmedGuests = i; document.getElementById("gc-num").textContent = i; document.querySelectorAll(".gc-drop-item").forEach(d=>d.classList.remove("active")); item.classList.add("active"); document.getElementById("gc-drop").classList.remove("open"); document.getElementById("submit").disabled = false; };
   }
 }
 
