@@ -286,7 +286,7 @@ button#edit-btn:hover { background:#fff3f0; }
       <div class="content-card rsvp-section">
         <h2 class="venue-title">Honor us with your presence</h2>
         <div id="message"></div>
-        <p>Number of persons invited: <strong><span id="num-guests"></span></strong></p>
+       <p id="attending-count" style="display:none;">Attending: <strong><span id="num-attending"></span></strong></p>
         <p id="attending-question">Are you attending?</p>
         <div class="rsvp-buttons">
           <button class="confirm" id="btn-yes" onclick="selectAttendance(true)">Yes</button>
@@ -338,7 +338,7 @@ function validateToken(name, guests, token) {
 
 if (name && guests && validateToken(name, guests, token)) {
   document.getElementById("message").innerHTML = "<b>" + name + "</b>";
-  document.getElementById("num-guests").innerText = guests;
+  document.getElementById("message").innerHTML = "<b>" + name + "</b>";
 } else {
   document.querySelector(".rsvp-section").innerHTML = `<h1 style="font-family:'Great Vibes',cursive;color:#74583e;font-size:clamp(50px,12vw,110px);white-space:nowrap;">Georges & Yara</h1><p style="color:#74583e;font-family:'EB Garamond',serif;font-size:1.2rem;">This invitation link is not valid.</p>`;
 }
@@ -455,6 +455,10 @@ function submitForm() {
     document.getElementById("reply-deadline").style.display="none";
     document.getElementById("wishes-label").style.display="none";
     submitBtn.style.display="none";
+    if (attending) {
+  document.getElementById("num-attending").textContent = finalGuests;
+  document.getElementById("attending-count").style.display = "block";
+}
     const thankYouText = attending ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!" : "Thank you for letting us know.";
     const msgEl = document.getElementById("thank-you-msg");
     msgEl.textContent = thankYouText; msgEl.classList.remove("visible"); setTimeout(()=>msgEl.classList.add("visible"),10);
