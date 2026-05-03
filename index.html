@@ -484,9 +484,10 @@ function buildGcDropdown(total) {
   for (let i = 1; i <= total; i++) {
     if (i > 1) { const d = document.createElement("div"); d.className="gc-drop-divider"; drop.appendChild(d); }
     const item = document.createElement("div");
-    item.className = "gc-drop-item" + (i === 1 ? " active" : "");
+    item.className = "gc-drop-item";
     item.textContent = i;
     item.onclick = (e) => { e.stopPropagation(); confirmedGuests = i; document.getElementById("gc-num").textContent = i; document.querySelectorAll(".gc-drop-item").forEach(d=>d.classList.remove("active")); item.classList.add("active"); document.getElementById("gc-drop").classList.remove("open"); document.getElementById("submit").disabled = false; };
+    drop.appendChild(item);
   }
 }
 
