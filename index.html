@@ -107,6 +107,8 @@ button#edit-btn:hover { background:#fff3f0; }
 #guest-count-section .gc-divider { width:60%; border:none; border-top:1px solid rgba(200,169,106,0.3); }
 #guest-count-section .gc-sentence { color:#ffffff; font-size:1rem; font-style:normal; letter-spacing:1px; margin:0; display:flex; align-items:center; gap:10px; white-space:nowrap; justify-content:center; }
 .gc-pill { background:rgba(200,169,106,0.2); border:1px solid #c8a96a; border-radius:30px; padding:5px 20px; color:#e8c97a; font-family:'EB Garamond',serif; font-size:1rem; cursor:pointer; transition:all 0.2s; position:relative; flex-shrink:0; min-width:50px; width:50px; }
+.gc-dropdown { display:none; position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%); background:rgba(30,15,5,0.95); border:1px solid rgba(200,169,106,0.5); border-radius:16px; overflow:hidden; width:60px; z-index:10; }
+.gc-dropdown.open { display:block; }
 .gc-drop-item { padding:8px 0; color:rgba(255,255,255,0.75); font-family:'EB Garamond',serif; font-size:1rem; cursor:pointer; transition:background 0.15s; text-align:center; }
 .gc-drop-item:hover { background:rgba(200,169,106,0.2); color:#e8c97a; }
 .gc-drop-item.active { color:#e8c97a; background:rgba(200,169,106,0.15); }
@@ -424,6 +426,7 @@ function selectAttendance(choice) {
     document.getElementById("btn-yes").classList.add("selected");
 if (total >= 2) {
       buildGcDropdown(total);
+      document.getElementById("gc-drop").classList.remove("open");
       confirmedGuests = 0;
       document.getElementById("gc-num").textContent = " ";
       document.getElementById("guest-count-section").style.display = "flex";
