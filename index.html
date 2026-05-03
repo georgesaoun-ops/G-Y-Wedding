@@ -299,7 +299,7 @@ button#edit-btn:hover { background:#fff3f0; }
   <div class="gc-sentence">
     <span id="gc-before">We will be</span>
     <span class="gc-pill" id="gc-pill" onclick="toggleGcDrop(event)">
-      <span id="gc-num">-</span>
+      <span id="gc-num"> </span>
       <div class="gc-dropdown" id="gc-drop"></div>
     </span>
     <span id="gc-after">attending</span>
@@ -418,7 +418,7 @@ if (total >= 2) {
       buildGcDropdown(total);
       document.getElementById("gc-drop").classList.remove("open");
       confirmedGuests = 0;
-      document.getElementById("gc-num").textContent = " ";
+      document.getElementById("gc-num").textContent = "-";
       document.getElementById("guest-count-section").style.display = "flex";
       document.getElementById("submit").disabled = true;
     } else {
