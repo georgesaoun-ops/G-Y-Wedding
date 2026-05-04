@@ -391,11 +391,12 @@ setInterval(() => { slides[current].classList.remove('active'); current=(current
 
 function enterInvitation() {
   const landing = document.getElementById('landing');
+  // Show carousel behind landing BEFORE fade starts
+  document.getElementById('carousel-bg-fixed').style.display='block';
+  document.getElementById('invitation').style.display='block';
   landing.classList.add('leaving');
   setTimeout(() => {
     landing.style.display='none';
-    document.getElementById('carousel-bg-fixed').style.display='block';
-    document.getElementById('invitation').style.display='block';
     document.getElementById('lang-switcher').style.display='block';
     window.scrollTo(0,0);
     initScrollAnimations();
