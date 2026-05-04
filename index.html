@@ -598,10 +598,9 @@ function setLang(lang) {
   document.querySelector('.venue-subtitle').textContent = t.venueSub;
   document.querySelector('.venue-date').textContent = t.venueDate;
   document.querySelectorAll('.venue-address')[1].textContent = t.venueNote;
-  document.querySelectorAll('.venue-title')[1].textContent = t.countdownTitle;
-  document.querySelectorAll('.venue-title')[2].textContent = t.giftTitle;
+  document.querySelectorAll('.venue-title')[1].textContent = t.giftTitle;
   document.querySelector('#section-gift .invite-text').textContent = t.giftText;
-  document.querySelectorAll('.venue-title')[3].textContent = t.rsvpTitle;
+  document.querySelectorAll('.venue-title')[2].textContent = t.rsvpTitle;
   document.getElementById('attending-question').textContent = t.attending;
   document.getElementById('reply-deadline').textContent = t.deadline;
   document.getElementById('wishes-label').textContent = t.wishes;
@@ -609,13 +608,13 @@ function setLang(lang) {
   document.getElementById('btn-no').textContent = t.no;
   document.getElementById('submit').textContent = t.submit;
   document.querySelector('.maps-label').textContent = t.mapsLabel;
-  // Update guest sentence text nodes
   const gc = document.querySelector('.gc-sentence');
   if (gc) {
     gc.childNodes[0].textContent = t.weWillBe + ' ';
     gc.childNodes[2].textContent = ' ' + t.attending2;
   }
 }
+
 </script>
 </body>
 </html>
