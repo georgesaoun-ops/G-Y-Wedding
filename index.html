@@ -320,27 +320,30 @@ button#edit-btn:hover { background:#fff3f0; }
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8kAu5-GDYFDyE4M2BPSWXhwY4ugxJm3vYFe4X0LW35c-nk9I6xgr-TWKYcl-4ZIiRYA/exec";
 const params = new URLSearchParams(window.location.search);
-const name = params.get("name");
-const guests = params.get("guests");
-const token = params.get("token");
+let name = null, guests = null;
 
-function validateToken(name, guests, token) {
-  if (!token) return false;
-  try {
-    let base64 = token.replace(/-/g, "+").replace(/_/g, "/");
+try {
+  const code = params.get("c");
+  if (code) {
+    let base64 = code.replace(/-/g, "+").replace(/_/g, "/");
     while (base64.length % 4) base64 += "=";
     const decoded = atob(base64);
-    return decoded === name + "|" + guests + "|GY2026SECRET";
-  } catch(e) { return false; }
-}
+    const parts = decoded.split("|");
+    if (parts.length === 3 && parts[2] === "GY2026SECRET") {
+      name = parts[0];
+      guests = parts[1];
+    }
+  }
+} catch(e) {}
 
-if (name && guests && validateToken(name, guests, token)) {
-  document.getElementById("message").innerHTML = "<b>" + name + "</b>";
+function validateToken() { return name !== null && guests !== null; }
+
+if (validateToken()) {
   document.getElementById("message").innerHTML = "<b>" + name + "</b>";
 } else {
   document.querySelector(".rsvp-section").innerHTML = `<h1 style="font-family:'Great Vibes',cursive;color:#74583e;font-size:clamp(50px,12vw,110px);white-space:nowrap;">Georges & Yara</h1><p style="color:#74583e;font-family:'EB Garamond',serif;font-size:1.2rem;">This invitation link is not valid.</p>`;
 }
-
+  
 if (name && localStorage.getItem("rsvp_submitted_" + name)) {
   document.querySelector(".rsvp-buttons").style.display = "none";
   document.getElementById("guest-count-section").style.display = "none";
@@ -422,7 +425,7 @@ function selectAttendance(choice) {
   attending = choice;
   document.getElementById("btn-yes").classList.remove("selected");
   document.getElementById("btn-no").classList.remove("selected");
-  const total = parseInt(params.get("guests")) || 1;
+  const total = parseInt(guests) || 1;
 
   if (choice) {
     document.getElementById("btn-yes").classList.add("selected");
@@ -450,7 +453,7 @@ function submitForm() {
   if (attending === null) return;
   const submitBtn = document.getElementById("submit");
   submitBtn.textContent = "Sending..."; submitBtn.disabled = true;
-  const total = parseInt(params.get("guests")) || 1;
+  const total = parseInt(guests) || 1;
   const finalGuests = attending ? (total >= 2 ? confirmedGuests : 1) : 0;
 
   // Show UI immediately without waiting
@@ -476,8 +479,8 @@ function submitForm() {
 
   // Send data to Google Sheet in background
   fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({
-    name: params.get("name") || "Unknown",
-    guests: params.get("guests") || "0",
+    name: name || "Unknown",
+    guests: guests || "0",
     attending: attending ? "Yes" : "No",
     confirmedGuests: finalGuests,
     message: document.getElementById("love-message").value
