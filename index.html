@@ -366,6 +366,19 @@ function startMusicOnce() {
 document.addEventListener('click', startMusicOnce);
 document.addEventListener('touchstart', startMusicOnce);
 
+// Try to autoplay immediately
+window.addEventListener('load', () => {
+  const music = document.getElementById('bg-music');
+  music.play().then(() => {
+    document.getElementById('icon-playing').style.display='block';
+    document.getElementById('icon-muted').style.display='none';
+    musicPlaying=true;
+    document.removeEventListener('click', startMusicOnce);
+    document.removeEventListener('touchstart', startMusicOnce);
+  }).catch(()=>{});
+});
+
+
 function toggleMusic() {
   const music = document.getElementById('bg-music');
   if (musicPlaying) { music.pause(); document.getElementById('icon-playing').style.display='none'; document.getElementById('icon-muted').style.display='block'; musicPlaying=false; }
