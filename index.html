@@ -612,10 +612,10 @@ function setLang(lang) {
   document.getElementById('btn-no').textContent = t.no;
   document.getElementById('submit').textContent = t.submit;
   document.querySelector('.maps-label').textContent = t.mapsLabel;
-  const gc = document.querySelector('.gc-sentence');
-  if (gc) {
-    gc.childNodes[0].textContent = t.weWillBe + ' ';
-    gc.childNodes[2].textContent = ' ' + t.attending2;
+ const gcBefore = document.getElementById('gc-before');
+const gcAfter = document.getElementById('gc-after');
+if (gcBefore) gcBefore.textContent = t.weWillBe;
+if (gcAfter) gcAfter.textContent = t.attending2;
   }
 }
 
