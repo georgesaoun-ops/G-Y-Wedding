@@ -451,32 +451,36 @@ function submitForm() {
   submitBtn.textContent = "Sending..."; submitBtn.disabled = true;
   const total = parseInt(params.get("guests")) || 1;
   const finalGuests = attending ? (total >= 2 ? confirmedGuests : 1) : 0;
+
+  // Show UI immediately without waiting
+  document.querySelector(".rsvp-buttons").style.display="none";
+  document.getElementById("guest-count-section").style.display="none";
+  document.getElementById("love-message").style.display="none";
+  document.getElementById("attending-question").style.display="none";
+  document.getElementById("reply-deadline").style.display="none";
+  document.getElementById("wishes-label").style.display="none";
+  submitBtn.style.display="none";
+  if (attending) {
+    document.getElementById("num-attending").textContent = finalGuests;
+    document.getElementById("attending-count").style.display = "block";
+    document.getElementById("rsvp-countdown").style.display = "flex";
+  }
+  const thankYouText = attending ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!" : "Thank you for letting us know.";
+  const msgEl = document.getElementById("thank-you-msg");
+  msgEl.textContent = thankYouText; msgEl.classList.remove("visible"); setTimeout(()=>msgEl.classList.add("visible"),10);
+  document.getElementById("edit-btn").style.display="inline-block";
+  document.getElementById("changed-mind").style.display="block";
+  localStorage.setItem("rsvp_submitted_"+name,"true");
+  localStorage.setItem("rsvp_message_"+name,thankYouText);
+
+  // Send data to Google Sheet in background
   fetch(SCRIPT_URL, { method:"POST", body:JSON.stringify({
     name: params.get("name") || "Unknown",
     guests: params.get("guests") || "0",
     attending: attending ? "Yes" : "No",
     confirmedGuests: finalGuests,
     message: document.getElementById("love-message").value
-  })})
-  .then(() => {
-    document.querySelector(".rsvp-buttons").style.display="none";
-    document.getElementById("guest-count-section").style.display="none";
-    document.getElementById("love-message").style.display="none";
-    document.getElementById("attending-question").style.display="none";
-    document.getElementById("reply-deadline").style.display="none";
-    document.getElementById("wishes-label").style.display="none";
-    submitBtn.style.display="none";
-if (attending) {
-  document.getElementById("num-attending").textContent = finalGuests;
-  document.getElementById("attending-count").style.display = "block";
-  document.getElementById("rsvp-countdown").style.display = "flex";
-}
-    const thankYouText = attending ? "Thank you for confirming your presence. We can't wait to celebrate this day with you!" : "Thank you for letting us know.";
-    const msgEl = document.getElementById("thank-you-msg");
-    msgEl.textContent = thankYouText; msgEl.classList.remove("visible"); setTimeout(()=>msgEl.classList.add("visible"),10);
-    document.getElementById("edit-btn").style.display="inline-block"; document.getElementById("changed-mind").style.display="block";
-    localStorage.setItem("rsvp_submitted_"+name,"true"); localStorage.setItem("rsvp_message_"+name,thankYouText);
-  }).catch(() => { submitBtn.textContent="Submit"; submitBtn.disabled=false; alert("Something went wrong, please try again."); });
+  })}).catch(() => {});
 }
 
 function editResponse() {
